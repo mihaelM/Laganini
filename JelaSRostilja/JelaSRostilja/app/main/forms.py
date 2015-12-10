@@ -3,5 +3,5 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 
 class NameForm(Form):
-    name=StringField('Enter a name', validators=[Required()])
-    submit=SubmitField('Submit')
+    korisIme=StringField('Enter a name', validators=[Required()])
+    potrvrdi=SubmitField('Submit')
