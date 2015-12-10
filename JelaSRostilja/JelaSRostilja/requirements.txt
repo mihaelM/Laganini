@@ -4,3 +4,5 @@ Flask-Login
 WTForms
 Flask-WTF
 Flask-Bootstrap
+Flask-Migrate
+Werkzeug
