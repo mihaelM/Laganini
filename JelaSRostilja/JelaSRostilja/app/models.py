@@ -28,12 +28,12 @@ class Uloga(db.Model):
             'Administrator': (0xff, False)
         }
         for u in uloge:
-            uloga = Uloga.query.filter_by(name=r).first()
+            uloga = Uloga.query.filter_by(imeUloge=u).first()
             if uloga is None:
-                uloga = Uloga(ime=u)
+                uloga = Uloga(imeUloge=u)
             uloga.dozvola = uloge[u][0]
             uloga.default = uloge[u][1]
-            db.session.add(uloge)
+            db.session.add(uloga)
         db.session.commit()
 
     def __repr__(self):
@@ -57,8 +57,11 @@ class Korisnik(UserMixin,db.Model):
         return "<Korisnik: {}, korisnikID: {}>".format(self.korisnikKorisIme,self.korisnikID)
     
     @staticmethod
-    def dodajKorisnika(korisIme='default'):
-        tmp=Korisnik(korisnikKorisIme=korisIme)
+    def dodajKorisnika(**kwargs):
+        tmp=Korisnik(korisnikKorisIme=kwargs['username'],ime=kwargs['ime'],prezime=kwargs['prezime'])
+        tmp.korisnikPas=kwargs['password']
+        ## rjesiti uloge
+        #tmp.ulogaID=
         try:
             db.session.add(tmp)
             db.session.commit()
