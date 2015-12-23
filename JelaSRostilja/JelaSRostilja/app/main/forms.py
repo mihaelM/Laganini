@@ -1,11 +1,15 @@
 ﻿from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, SelectField, PasswordField
-from wtforms.validators import Required
+from wtforms.validators import DataRequired
 
 class UnosKorisnika(Form):
-    korisIme=StringField('Korisnicko ime', validators=[Required()])
-    password=PasswordField('Password',validators=[Required()])
-    ime=StringField('Ime',validators=[Required()])
-    prezime=StringField('Prezime',validators=[Required()])
-    uloga=SelectField('Uloga',choices=[('0','Korisnik'),('1','Djelatnik'),('2','Administrator')])
+    korisIme=StringField('Korisnicko ime', validators=[DataRequired()])
+    password=PasswordField('Password',validators=[DataRequired()])
+    ime=StringField('Ime',validators=[DataRequired()])
+    prezime=StringField('Prezime',validators=[DataRequired()])
+    uloga=SelectField('Uloga',choices=[('Korisnik','Korisnik'),('Djelatnik','Djelatnik'),('Administrator','Administrator')])
     submit=SubmitField('Dodaj')
+
+class UnosKomentara(Form):
+    tekst=StringField('Unesite komentar',validators=[DataRequired()])
+    submit=SubmitField('Komentiraj')
