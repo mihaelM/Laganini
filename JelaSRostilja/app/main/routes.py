@@ -9,6 +9,7 @@ def index():
     Uloga.umetni_uloge()
     return render_template('index.html')
 
+
 @main.route('/komentari',methods=['GET','POST'])
 def komentari():
     form=UnosKomentara()   

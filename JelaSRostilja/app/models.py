@@ -49,7 +49,8 @@ class Korisnik(UserMixin,db.Model):
     prezime=db.Column(db.String(64))
     ulogaID=db.Column(db.Integer,db.ForeignKey('uloga.ulogaID'))
 
-
+    def get_id(self):
+        return self.korisnikID
 
     def __init__(self,**kwargs):
         super(Korisnik,self).__init__(**kwargs)
@@ -78,6 +79,10 @@ class Korisnik(UserMixin,db.Model):
 
     def provjeri_password(self, password):
         return check_password_hash(self.korisnikPas_hash, password)
+
+@login_manager.user_loader
+def ucitaj_korisnika(id):
+    return Korisnik.query.get(int(id))
 
 class Komentar(db.Model):
     __tablename__='komentar'

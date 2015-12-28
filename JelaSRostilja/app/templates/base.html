@@ -20,6 +20,13 @@
                 <li><a href="{{url_for('main.ispisi_korisnike')}}">Pokazi korisnike</a></li>
                 <li><a href="{{url_for('main.dodaj_korisnika')}}">Dodaj korisnika</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('autentifikacija.odjava') }}">{{current_user.korisnikKorisIme}} Odjavi se</a></li>
+                {% else %}
+                <li><a href="{{ url_for('autentifikacija.prijava') }}">Prijavi se</a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 </div>

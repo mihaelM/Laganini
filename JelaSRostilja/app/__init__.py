@@ -10,7 +10,7 @@ bootstrap = Bootstrap()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
-#login_manager.login_view = 'auth.login'
+login_manager.login_view = 'autentifikacija.prijava'
 
 def create_app():
     app=Flask(__name__)
@@ -24,5 +24,8 @@ def create_app():
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from .autentifikacija import autentifikacija as autentifikacija_blueprint
+    app.register_blueprint(autentifikacija_blueprint)
 
     return app
