@@ -1,5 +1,5 @@
 ﻿from app import create_app, db
-from app.models import Korisnik
+from app.models import Korisnik,Uloga
 #, Follow, Role, Permission, Post, Comment
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -23,7 +23,6 @@ manager.add_command('db', MigrateCommand)
 def deploy():
     from flask.ext.migrate import upgrade
 
-    # migrate database to latest revision
     upgrade()
 
 

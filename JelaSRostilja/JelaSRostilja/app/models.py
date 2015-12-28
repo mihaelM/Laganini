@@ -2,6 +2,7 @@
 from . import db, login_manager
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 class Dozvole:
     KOMENTIRAJ = 0x01
@@ -56,12 +57,11 @@ class Korisnik(UserMixin,db.Model):
     def __repr__(self):
         return "<Korisnik: {}, korisnikID: {}>".format(self.korisnikKorisIme,self.korisnikID)
     
+    ##suvisno?
     @staticmethod
     def dodajKorisnika(**kwargs):
-        tmp=Korisnik(korisnikKorisIme=kwargs['username'],ime=kwargs['ime'],prezime=kwargs['prezime'])
+        tmp=Korisnik(korisnikKorisIme=kwargs['username'],ime=kwargs['ime'],prezime=kwargs['prezime'],uloga=Uloga.query.filter_by(imeUloge=kwargs['uloga']).first())
         tmp.korisnikPas=kwargs['password']
-        ## rjesiti uloge
-        #tmp.ulogaID=
         try:
             db.session.add(tmp)
             db.session.commit()
@@ -78,3 +78,52 @@ class Korisnik(UserMixin,db.Model):
 
     def provjeri_password(self, password):
         return check_password_hash(self.korisnikPas_hash, password)
+
+class Komentar(db.Model):
+    __tablename__='komentar'
+    klijentID=db.Column(db.Integer)
+    komentarID=db.Column(db.Integer,primary_key=True)
+    tekstKomentara=db.Column(db.String(256))
+
+    def __init__(self,**kwargs):
+        super(Komentar,self).__init__(**kwargs)
+
+    def __repr__(self):
+        return "<KomentarID: {}, : tekstKomentara: {}>".format(self.komentarID,self.tekstKomentara)
+
+
+class Jelo(db.Model):
+    __tablename__='jelo'
+    jeloID=db.Column(db.Integer,primary_key=True)
+    naziv=db.Column(db.String(128))
+    cijena=db.Column(db.Float)
+    dostupnost=db.Column(db.Boolean)
+    fofoJeloID=db.Column(db.Integer)
+    cestoNarucivano=db.Column(db.Boolean)
+    kategorijaID=db.Column(db.Integer)
+
+    def __repr__(self):
+        return "<jeloID: {}, naziv: {}>".format(self.jeloID,self.naziv)
+    
+
+class Kategorija(db.Model):
+    __tablename__='kategorija'
+    kategorijaID=db.Column(db.Integer,primary_key=True)
+    kategorijaIme=db.Column(db.String(128))
+
+    def __repr__(self):
+        return "<KategorijaID: {}, KategorijaIme: {}>".format(self.kategorijaID,self.kategorijaIme)
+
+
+class Narudzba(db.Model):
+    __tablename__='narudzba'
+    narudzbaID=db.Column(db.Integer,primary_key=True)
+    adresa=db.Column(db.String(128))
+    kat=db.Column(db.Integer)
+    kontakt_broj=db.Column(db.Integer)
+    email=db.Column(db.String(128))
+    placanje=db.Column(db.String(64))
+    datum=db.Column(db.DateTime(), default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<NarudzbaID: {}, email: {}>".format(self.narudzbaID,self.email)
