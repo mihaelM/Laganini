@@ -11,7 +11,7 @@ migrate = Migrate(app, db)
 #User.generate_fake()
 
 def make_shell_context():
-    return dict(app=app, db=db, Korisnik=Korisnik,Dozvole=Dozvole)
+    return dict(app=app, db=db, Korisnik=Korisnik,Dozvole=Dozvole,Uloga=Uloga)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 

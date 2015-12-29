@@ -2,8 +2,8 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 <ul>
-    {% for korisnik in korisnici %}
-    <li>{{korisnik}}<a href="{{url_for('main.prikazi_korisnika',id=korisnik.korisnikID)}}">Vise informacija</a></li>
+    {% for djelatnik in djelatnici %}
+    <li>{{djelatnik}}<a href="{{url_for('main.prikazi_korisnika',id=djelatnik.korisnikID)}}">Vise informacija</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
