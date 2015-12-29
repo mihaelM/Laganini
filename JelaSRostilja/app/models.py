@@ -143,3 +143,23 @@ class Narudzba(db.Model):
 
     def __repr__(self):
         return "<NarudzbaID: {}, email: {}>".format(self.narudzbaID,self.email)
+
+
+class Restoran(db.Model):
+    __tablename__ = 'restoran'
+    restoranID = db.Column(db.Integer, primary_key = True)
+    naziv = db.Column(db.String(128))
+    adresa = db.Column(db.String(128))
+    fotoID = db.Column(db.Integer)
+    imeVlas = db.Column(db.String(128))
+    prezVlas = db.Column(db.String(128))
+    radnoVrijeme = db.Column(db.String(128))
+    telefon = db.Column(db.String(128))
+    minNarudzba = db.Column(db.Integer)
+    proVrijemeDost = db.Column(db.String(128))
+    nacinPlac = db.Column(db.String(128))
+    cijanaDostave = db.Column(db.Float)
+    evPopust = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return "<RestoranID: {}, naziv: {}>".format(self.restoranID, self.naziv)
