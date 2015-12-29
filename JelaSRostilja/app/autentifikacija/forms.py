@@ -14,3 +14,6 @@ class RegistracijaKorisnika(Form):
     ime=StringField('Ime',validators=[DataRequired()])
     prezime=StringField('Prezime',validators=[DataRequired()])
     submit=SubmitField('Registriraj se')
+
+
+

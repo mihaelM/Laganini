@@ -19,7 +19,6 @@
                 <li><a href="{{url_for('main.komentari')}}">Komentari</a></li>
                 {% if current_user.is_authenticated and current_user.smije(Dozvole.DODAJ_DJELATNIKA) %}
                 <li><a href="{{url_for('main.popis_djelatnika')}}">Popis djelatnika</a></li>
-                <li><a href="{{url_for('main.dodaj_djelatnika')}}">Dodaj djelatnika</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -3,7 +3,10 @@
 {% block page_content %}
 <ul>
     {% for komentar in komentari %}
-    <li>{{komentar}}</li>
+    <li>
+        {{komentar.datum}}
+        {{komentar}}
+    </li>
     {% endfor %}
 </ul>
 

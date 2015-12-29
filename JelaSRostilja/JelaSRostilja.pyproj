@@ -57,7 +57,6 @@
   <ItemGroup>
     <Content Include="app\templates\autentifikacija\registracija.html" />
     <Content Include="app\templates\base.html" />
-    <Content Include="app\templates\dodaj_djelatnika.html" />
     <Content Include="app\templates\index.html" />
     <Content Include="app\templates\popis_djelatnika.html" />
     <Content Include="app\templates\korisnik.html" />

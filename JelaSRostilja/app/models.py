@@ -48,6 +48,7 @@ class Korisnik(UserMixin,db.Model):
     ime=db.Column(db.String(64))
     prezime=db.Column(db.String(64))
     ulogaID=db.Column(db.Integer,db.ForeignKey('uloga.ulogaID'))
+    komentari=db.relationship('Komentar',backref='korisnik',lazy='dynamic')
 
     def get_id(self):
         return self.korisnikID
@@ -58,11 +59,11 @@ class Korisnik(UserMixin,db.Model):
     def __repr__(self):
         return "<Korisnik: {}, korisnikID: {}>".format(self.korisnikKorisIme,self.korisnikID)
     
-    ##suvisno?
+   
     @staticmethod
-    def dodajKorisnika(**kwargs):
-        tmp=Korisnik(korisnikKorisIme=kwargs['username'],ime=kwargs['ime'],prezime=kwargs['prezime'],uloga=Uloga.query.filter_by(imeUloge=kwargs['uloga']).first())
-        tmp.korisnikPas=kwargs['password']
+    def dodaj_admina(**kwargs):
+        tmp=Korisnik(korisnikKorisIme="admin",ime="admin",prezime="admin",uloga=Uloga.query.filter_by(imeUloge="Administrator").first())
+        tmp.korisnikPas="admin"
         try:
             db.session.add(tmp)
             db.session.commit()
@@ -95,9 +96,10 @@ def ucitaj_korisnika(id):
 
 class Komentar(db.Model):
     __tablename__='komentar'
-    klijentID=db.Column(db.Integer)
+    klijentID=db.Column(db.Integer,db.ForeignKey('korisnik.korisnikID'))
     komentarID=db.Column(db.Integer,primary_key=True)
     tekstKomentara=db.Column(db.String(256))
+    datum=db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __init__(self,**kwargs):
         super(Komentar,self).__init__(**kwargs)
