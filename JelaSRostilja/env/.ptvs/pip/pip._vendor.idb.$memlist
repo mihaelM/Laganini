@@ -1,8 +1,0 @@
-requests
-_markerlib
-absolute_import
-distlib
-colorama
-six
-pkg_resources
-html5lib

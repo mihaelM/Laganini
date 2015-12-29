@@ -20,7 +20,7 @@
     <RootNamespace>JelaSRostilja</RootNamespace>
     <CommandLineArguments>runserver</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <InterpreterId>{e856d55c-eba6-4b2e-b93c-b7f86e291163}</InterpreterId>
+    <InterpreterId>{16aff573-be84-42ae-abbd-9280ec6adb87}</InterpreterId>
     <InterpreterVersion>3.4</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -77,8 +77,8 @@
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Interpreter Include="env\">
-      <Id>{e856d55c-eba6-4b2e-b93c-b7f86e291163}</Id>
+    <Interpreter Include="..\..\env\">
+      <Id>{16aff573-be84-42ae-abbd-9280ec6adb87}</Id>
       <BaseInterpreter>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</BaseInterpreter>
       <Version>3.4</Version>
       <Description>env (Python 64-bit 3.4)</Description>
