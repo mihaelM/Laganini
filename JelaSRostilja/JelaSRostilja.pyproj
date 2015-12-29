@@ -33,15 +33,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app\" />
+    <Folder Include="app\komentiranje\" />
     <Folder Include="app\main\" />
     <Folder Include="app\autentifikacija\" />
+    <Folder Include="app\meni\" />
+    <Folder Include="app\narudzba\" />
+    <Folder Include="app\static\" />
+    <Folder Include="app\registriranje\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\autentifikacija\" />
+    <Folder Include="app\templates\komentiranje\" />
+    <Folder Include="app\templates\meni\" />
+    <Folder Include="app\templates\registriranje\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\komentiranje\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\komentiranje\routes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\komentiranje\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\main\forms.py" />
     <Compile Include="app\main\routes.py" />
     <Compile Include="app\main\__init__.py" />
+    <Compile Include="app\meni\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\meni\routes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\meni\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\models.py" />
     <Compile Include="app\autentifikacija\forms.py">
       <SubType>Code</SubType>
@@ -52,17 +78,36 @@
     <Compile Include="app\autentifikacija\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\narudzba\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\narudzba\routes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\narudzba\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\registriranje\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\registriranje\routes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\registriranje\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\__init__.py" />
     <Compile Include="config.py" />
     <Compile Include="start.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\templates\base.html" />
-    <Content Include="app\templates\dodaj_korisnika.html" />
+    <Content Include="app\templates\meni\meni.html" />
+    <Content Include="app\templates\registriranje\registracija.html" />
     <Content Include="app\templates\index.html" />
     <Content Include="app\templates\ispisi_korisnike.html" />
     <Content Include="app\templates\korisnik.html" />
-    <Content Include="app\templates\komentari.html" />
+    <Content Include="app\templates\komentiranje\komentari.html" />
     <Content Include="app\templates\autentifikacija\prijava.html" />
     <Content Include="requirements.txt" />
   </ItemGroup>
