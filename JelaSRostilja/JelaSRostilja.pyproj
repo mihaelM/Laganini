@@ -55,10 +55,11 @@
     <Compile Include="start.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\autentifikacija\registracija.html" />
     <Content Include="app\templates\base.html" />
-    <Content Include="app\templates\dodaj_korisnika.html" />
+    <Content Include="app\templates\dodaj_djelatnika.html" />
     <Content Include="app\templates\index.html" />
-    <Content Include="app\templates\ispisi_korisnike.html" />
+    <Content Include="app\templates\popis_djelatnika.html" />
     <Content Include="app\templates\korisnik.html" />
     <Content Include="app\templates\komentari.html" />
     <Content Include="app\templates\autentifikacija\prijava.html" />

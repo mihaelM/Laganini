@@ -1,5 +1,6 @@
 ﻿from flask import render_template,redirect,url_for,request, flash
-from .forms import UnosKorisnika,UnosKomentara
+from flask.ext.login import current_user
+from .forms import UnosDjelatnika,UnosKomentara
 from . import main
 from .. import db
 from ..models import Korisnik,Uloga,Komentar
@@ -27,30 +28,30 @@ def komentari():
     komentari = pagination.items
     return render_template('komentari.html',form=form,pagination=pagination,komentari=komentari)
 
-@main.route('/korisnici')
-def ispisi_korisnike():
+@main.route('/popis_djelatnika')
+def popis_djelatnika():
     query=Korisnik.query
     page = request.args.get('page', 1, type=int)
-    pagination = query.order_by(Korisnik.korisnikID.desc()).paginate(page, per_page=100,error_out=False)
-    korisnici = pagination.items
-    return render_template('ispisi_korisnike.html',korisnici=korisnici,pagination=pagination)
+    pagination = query.filter_by(uloga=Uloga.query.filter_by(imeUloge="Djelatnik").first()).order_by(Korisnik.korisnikID.desc()).paginate(page, per_page=100,error_out=False)
+    djelatnici = pagination.items
+    return render_template('popis_djelatnika.html',djelatnici=djelatnici,pagination=pagination)
 
-@main.route('/dodaj_korisnika',methods=['GET','POST'])
-def dodaj_korisnika():
-    form=UnosKorisnika()
+@main.route('/dodaj_djelatnika',methods=['GET','POST'])
+def dodaj_djelatnika():
+    form=UnosDjelatnika()
     if request.method=='POST':
         if form.validate_on_submit():
-            korisnik=Korisnik(ime=form.ime.data,
+            djelatnik=Korisnik(ime=form.ime.data,
                               prezime=form.prezime.data,
                               korisnikKorisIme=form.korisIme.data,
                               korisnikPas=form.password.data,
-                              uloga=Uloga.query.filter_by(imeUloge=form.uloga.data).first())
-            db.session.add(korisnik)
-            flash('Novi korisnik uspjesno dodan')
+                              uloga=Uloga.query.filter_by(imeUloge="Djelatnik").first())
+            db.session.add(djelatnik)
+            flash('Novi djelatnik uspjesno dodan')
     else:
-        return render_template('dodaj_korisnika.html',form=form)
+        return render_template('dodaj_djelatnika.html',form=form)
 
-    return redirect(url_for('main.ispisi_korisnike'))
+    return redirect(url_for('main.popis_djelatnika'))
 
 @main.route('/korisnik/<int:id>')
 def prikazi_korisnika(id):

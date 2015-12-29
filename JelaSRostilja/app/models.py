@@ -1,4 +1,4 @@
-﻿from flask.ext.login import UserMixin
+﻿from flask.ext.login import UserMixin,AnonymousUserMixin
 from . import db, login_manager
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -32,7 +32,7 @@ class Uloga(db.Model):
             uloga = Uloga.query.filter_by(imeUloge=u).first()
             if uloga is None:
                 uloga = Uloga(imeUloge=u)
-            uloga.dozvola = uloge[u][0]
+            uloga.dozvole = uloge[u][0]
             uloga.default = uloge[u][1]
             db.session.add(uloga)
         db.session.commit()
@@ -79,6 +79,15 @@ class Korisnik(UserMixin,db.Model):
 
     def provjeri_password(self, password):
         return check_password_hash(self.korisnikPas_hash, password)
+
+    def smije(self,dozvole):
+        return self.uloga is not None and (self.uloga.dozvole & dozvole)==dozvole
+
+class AnonimniKorisnik(AnonymousUserMixin):
+    def smije(self, dozvole):
+        return False
+
+login_manager.anonymous_user=AnonimniKorisnik
 
 @login_manager.user_loader
 def ucitaj_korisnika(id):

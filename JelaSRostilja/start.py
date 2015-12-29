@@ -1,5 +1,5 @@
 ﻿from app import create_app, db
-from app.models import Korisnik,Uloga
+from app.models import Korisnik,Uloga,Dozvole
 #, Follow, Role, Permission, Post, Comment
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -11,7 +11,7 @@ migrate = Migrate(app, db)
 #User.generate_fake()
 
 def make_shell_context():
-    return dict(app=app, db=db, Korisnik=Korisnik)
+    return dict(app=app, db=db, Korisnik=Korisnik,Dozvole=Dozvole)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
