@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="app\" />
+    <Folder Include="app\init\" />
     <Folder Include="app\main\" />
     <Folder Include="app\autentifikacija\" />
     <Folder Include="app\narucivanje\" />
@@ -40,8 +41,14 @@
     <Folder Include="app\templates\autentifikacija\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\init\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\main\forms.py" />
     <Compile Include="app\main\routes.py" />
+    <Compile Include="app\init\korisnici.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\main\__init__.py" />
     <Compile Include="app\models.py" />
     <Compile Include="app\autentifikacija\forms.py">

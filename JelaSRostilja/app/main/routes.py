@@ -7,7 +7,6 @@ from ..models import Korisnik,Uloga,Komentar
 
 @main.route('/')
 def index():
-    Uloga.umetni_uloge()
     return render_template('index.html')
 
 

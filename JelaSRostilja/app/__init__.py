@@ -1,9 +1,9 @@
-﻿from flask import Flask
+﻿from flask import current_app
+from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.bootstrap import Bootstrap
 from config import Config
-
 
 db=SQLAlchemy()
 bootstrap = Bootstrap()
@@ -28,4 +28,10 @@ def create_app():
     from .autentifikacija import autentifikacija as autentifikacija_blueprint
     app.register_blueprint(autentifikacija_blueprint)
 
+    # u bazu loadira pocetne korisnike
+    from .init import korisnici
+    with app.app_context():
+        korisnici.insert_korisnici()
+
     return app
+
