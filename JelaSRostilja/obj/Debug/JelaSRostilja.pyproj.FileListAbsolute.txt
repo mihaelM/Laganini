@@ -1,0 +1,13 @@
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\bin\Microsoft.PythonTools.WebRole.dll
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\attach_server.py
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\visualstudio_py_debugger.py
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\visualstudio_py_repl.py
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\visualstudio_py_util.py
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\__init__.py
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\__main__.py
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\bin\AzureSetup.cfg
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\bin\Microsoft.PythonTools.AzureSetup.exe
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\bin\Microsoft.PythonTools.AzureSetup.exe.config
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\bin\wfastcgi.py
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\web.config
+C:\Users\Vedran\FER\OPP\Laganini\JelaSRostilja\obj\Debug\web.debug.config
