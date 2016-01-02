@@ -1,0 +1,30 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+Naziv: {{jelo.naziv}}<br />
+Cijena: {{jelo.cijena}}kn<br />
+Dostupnost: {% if jelo.dostupnost %} Dostupno {% else %} Nedostupno {% endif %} <br />
+Često naručivano:  {% if jelo.cestoNarucivano %} Da {% else %} Ne {% endif %}<br />
+<!-- sada slijede opcije-->
+<br />
+
+{% if jelo.opcije %}
+<i> Odaberite jedan ili nula od dodatnih priloga: </i><br />
+{% endif %}
+
+<form method="post" action="/meni"> 
+
+  {% if jelo.opcije %}
+    {% for opcija in jelo.opcije %}
+          <input type="radio" name="opcija" value="{{opcija.opcija}}">{% set kon_opcija = ' ' + opcija.opcija  %} {{kon_opcija}} <br/>
+    {% endfor %}
+  {% endif %}
+  
+    Odaberite broj porcija (1 - 10) : <input type="number" name="kolicina" min="1" max="10"> <br />
+
+    <input type="hidden" name="jeloID" value="{{jelo.jeloID}}">
+    <button type="submit"> Dodajte jelo u košaricu </button> <!---->
+    <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
+</form>
+
+{% endblock %}

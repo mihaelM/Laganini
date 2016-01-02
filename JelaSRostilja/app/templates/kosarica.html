@@ -1,0 +1,24 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+
+{% if jelaKosarica.count() > 0 %}
+
+<ul>
+    {% for jelo in jelaKosarica %}
+    <li> {{jelo}} </li>
+    {% endfor %}
+</ul>
+<form method="post" action="/kosarica/potvrda">
+
+    <button type="submit"> Potvrdite sadržaj košarice </button> <!---->
+    <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
+</form>
+
+{% else %}
+
+Košarica je prazna!
+
+{% endif %}
+
+{% endblock %}
