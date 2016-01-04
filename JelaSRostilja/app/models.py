@@ -20,7 +20,7 @@ class Uloga(db.Model):
     korisnici = db.relationship('Korisnik', backref='uloga', lazy='dynamic')
 
     @staticmethod
-    def umetni_uloge():
+    def dodaj_uloge():
         uloge = {
             'Korisnik': (Dozvole.KOMENTIRAJ , True),
             'Djelatnik': (Dozvole.ODRADI_NARUDZBU , False),
@@ -143,3 +143,44 @@ class Narudzba(db.Model):
 
     def __repr__(self):
         return "<NarudzbaID: {}, email: {}>".format(self.narudzbaID,self.email)
+
+
+
+class Restoran(db.Model):
+    __tablename__='restoran'
+    restoranID=db.Column(db.Integer,primary_key=True)
+    naziv=db.Column(db.String(128))
+    adresa=db.Column(db.String(128))
+    fotoID=db.Column(db.String(128))
+    imeVlas=db.Column(db.String(64))
+    prezVlas=db.Column(db.String(64))
+    radnoVrijeme=db.Column(db.String(128))
+    telefon=db.Column(db.String(128))
+    minNarudzba=db.Column(db.Float)
+    proVrijemeDost=db.Column(db.String(128))
+    nacinPlac=db.Column(db.String(128))
+    cijenaDostave=db.Column(db.Float)
+    evPopust=db.Column(db.Boolean)
+
+    def __repr__(self):
+        return "<restoranID: {}, naziv: {}>".format(self.restoranID,self.naziv)
+
+    @staticmethod
+    def dodaj_restoran():
+        tmp=Restoran(naziv="Wild8",
+                     adresa="PH adresa",
+                     fotoID="PH fotoID",
+                     imeVlas="PH imeVlas",
+                     prezVlas="PH prezValas",
+                     radnoVrijeme="PH radnoVrijeme",
+                     telefon="PH telefon",
+                     minNarudzba=100,
+                     proVrijemeDost="PH proVrijemeDost",
+                     nacinPlac="PH nacinPlac",
+                     cijenaDostave=30,
+                     evPopust=False)
+        try:
+            db.session.add(tmp)
+            db.session.commit()
+        except:
+            pass
