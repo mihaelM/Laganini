@@ -1,4 +1,5 @@
 ﻿from flask import render_template,redirect,url_for,request, flash, session
+from flask.ext.login import current_user
 from .forms import *
 from . import main
 from .. import db
