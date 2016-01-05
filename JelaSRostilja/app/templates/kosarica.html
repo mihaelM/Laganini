@@ -1,14 +1,30 @@
 ﻿{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
+<script src="{{ url_for( 'static', filename = './js/validateForm.js' ) }}"></script>
+<!--dobro da ovo treba preselit u poseban fajl..-->
 
 {% if jelaKosarica.count() > 0 %}
 
 <ul>
     {% for jelo in jelaKosarica %}
-    <li> {{jelo}} </li>
+    <li> {{jelo}} 
+   
+     <form method="post" name="myForm" action="/kosarica/promijeni_broj" onsubmit="return validateForm()">
+            <input type="hidden" value="{{jelo.jeloKosaricaID}}" name="jeloID" />
+            <input type="number" name="kolicina" min="1" max="10" />   <button type="submit"> Postavite ponovo količinu </button> <!---->
+     </form>
+
+      <form method="post" action="/kosarica/izbrisi">
+            <input type="hidden" value="{{jelo.jeloKosaricaID}}" name="jeloID" />
+            <button type="submit"> Izbrišite ovo jelo </button> <!---->
+      </form>
+      <br />
+         
+    </li>
     {% endfor %}
 </ul>
+Ukupna cijena košarice je: {{totalCijena}}kn.
 <form method="post" action="/kosarica/potvrda">
 
     <button type="submit"> Potvrdite sadržaj košarice </button> <!---->

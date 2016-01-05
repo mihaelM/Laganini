@@ -1,4 +1,4 @@
-﻿from flask.ext.login import UserMixin
+﻿from flask.ext.login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -24,7 +24,7 @@ class Uloga(db.Model):
     korisnici = db.relationship('Korisnik', backref='uloga', lazy='dynamic')
 
     @staticmethod
-    def umetni_uloge():
+    def dodaj_uloge():
         uloge = {
             'Korisnik': (Dozvole.KOMENTIRAJ , True),
             'Djelatnik': (Dozvole.ODRADI_NARUDZBU , False),
@@ -32,12 +32,11 @@ class Uloga(db.Model):
                         Dozvole.DODAJ_DJELATNIKA , False),
             'Administrator': (0xff, False)
         }
-        # uf ovo je zeznuto desifrirat
         for u in uloge:
             uloga = Uloga.query.filter_by(imeUloge=u).first()
-            if uloga is None: # sto napocetku je stavimo uloga = Ulaga (imeUloge je key = u), i ostalo postavimo poslije
+            if uloga is None:
                 uloga = Uloga(imeUloge=u)
-            uloga.dozvola = uloge[u][0]
+            uloga.dozvole = uloge[u][0]
             uloga.default = uloge[u][1]
             db.session.add(uloga)
         db.session.commit()
@@ -53,12 +52,27 @@ class Korisnik(UserMixin,db.Model):
     ime=db.Column(db.String(64))
     prezime=db.Column(db.String(64))
     ulogaID=db.Column(db.Integer,db.ForeignKey('uloga.ulogaID'))
+    komentari=db.relationship('Komentar',backref='korisnik',lazy='dynamic')
+
+    def get_id(self):
+        return self.korisnikID
 
     def __init__(self,**kwargs):
         super(Korisnik,self).__init__(**kwargs)
 
     def __repr__(self):
         return "<Korisnik: {}, korisnikID: {}>".format(self.korisnikKorisIme,self.korisnikID)
+    
+   
+    @staticmethod
+    def dodaj_admina(**kwargs):
+        tmp=Korisnik(korisnikKorisIme="admin",ime="admin",prezime="admin",uloga=Uloga.query.filter_by(imeUloge="Administrator").first())
+        tmp.korisnikPas="admin"
+        try:
+            db.session.add(tmp)
+            db.session.commit()
+        except:
+            pass
 
     @property
     def korisnikPas(self):
@@ -71,28 +85,83 @@ class Korisnik(UserMixin,db.Model):
     def provjeri_password(self, password):
         return check_password_hash(self.korisnikPas_hash, password)
 
+    def smije(self,dozvole):
+        return self.uloga is not None and (self.uloga.dozvole & dozvole)==dozvole
+
+class AnonimniKorisnik(AnonymousUserMixin):
+    def smije(self, dozvole):
+        return False
+
+login_manager.anonymous_user=AnonimniKorisnik
+
+@login_manager.user_loader
+def ucitaj_korisnika(id):
+    return Korisnik.query.get(int(id))
+
 class Komentar(db.Model):
     __tablename__='komentar'
-    klijentID=db.Column(db.Integer,db.ForeignKey('korisnik.korisnikID')) #ok nisam ja za komentare zadućen
+    klijentID=db.Column(db.Integer,db.ForeignKey('korisnik.korisnikID'))
     komentarID=db.Column(db.Integer,primary_key=True)
     tekstKomentara=db.Column(db.String(256))
+    datum=db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __init__(self,**kwargs):
         super(Komentar,self).__init__(**kwargs)
 
-    #Korisnik.query.filter_by(korisnikID=klijentID).first()
     def __repr__(self):
-        return "Komentar: {} | korisnik = Pero Perić".format(self.tekstKomentara)
+        return "<KomentarID: {}, : tekstKomentara: {}>".format(self.komentarID,self.tekstKomentara)
+
+
+class Restoran(db.Model):
+    __tablename__='restoran'
+    restoranID=db.Column(db.Integer,primary_key=True)
+    naziv=db.Column(db.String(128))
+    adresa=db.Column(db.String(128))
+    fotoID=db.Column(db.String(128))
+    imeVlas=db.Column(db.String(64))
+    prezVlas=db.Column(db.String(64))
+    radnoVrijeme=db.Column(db.String(128))
+    telefon=db.Column(db.String(128))
+    minNarudzba=db.Column(db.Float)
+    proVrijemeDost=db.Column(db.String(128))
+    nacinPlac=db.Column(db.String(128))
+    cijenaDostave=db.Column(db.Float)
+    evPopust=db.Column(db.Boolean)
+
+    def __repr__(self):
+        return "<restoranID: {}, naziv: {}>".format(self.restoranID,self.naziv)
+
+    @staticmethod
+    def dodaj_restoran():
+        tmp=Restoran(naziv="Wild8",
+                     adresa="PH adresa",
+                     fotoID="PH fotoID",
+                     imeVlas="PH imeVlas",
+                     prezVlas="PH prezValas",
+                     radnoVrijeme="PH radnoVrijeme",
+                     telefon="PH telefon",
+                     minNarudzba=100,
+                     proVrijemeDost="PH proVrijemeDost",
+                     nacinPlac="PH nacinPlac",
+                     cijenaDostave=30,
+                     evPopust=False)
+        try:
+            db.session.add(tmp)
+            db.session.commit()
+        except:
+            pass
 
 class Narudzba(db.Model):
     __tablename__='narudzba'
-    narudzbaID=db.Column(db.Integer,primary_key=True)
+    narudzbaID=db.Column(db.Integer,primary_key=True, autoincrement = True)
     adresa=db.Column(db.String(128))
     kat=db.Column(db.Integer)
     kontakt_broj=db.Column(db.Integer)
     email=db.Column(db.String(128))
     placanje=db.Column(db.String(64))
     datum=db.Column(db.DateTime(), default=datetime.utcnow)
+    opisNarudzbe = db.Column(db.String(100000))
+    totalCijena = db.Column(db.Float) #novi podatak - ukupna cijena narudzbe
 
     def __init__(self,**kwargs):
         super(Narudzba,self).__init__(**kwargs)
@@ -120,7 +189,7 @@ class Jelo(db.Model):
     __tablename__ = 'jelo'
     jeloID = db.Column(db.Integer, primary_key = True)
     naziv = db.Column(db.Unicode(128))
-    fotoJeloIme = db.Column(db.Unicode(128))
+    fotoJeloIme = db.Column(db.String(128))
     cijena = db.Column(db.Float)
     dostupnost = db.Column(db.Boolean)
     cestoNarucivano = db.Column (db.Boolean)
@@ -133,12 +202,14 @@ class Jelo(db.Model):
 
    # tu fino mozemo definirat kako zelimo da izgleda na stranici :)
     def __repr__(self):
-        return "{}, naziv: {} ".format(self.jeloID, self.naziv.encode('utf-8'))
+        return "{0:3d}. kategorija: {2}, naziv: {1} ".format( self.jeloID, self.naziv.encode('utf-8'),
+        Kategorija.query.filter_by(kategorijaID=self.kategorijaID).first().kategorijaIme.encode('utf-8') )
 
 # zasad stavljamo da ima tu jednu (ili nijednu) odabranu opciju, inače je prekomplicirano za nas neiskusne developere
 class JeloKosarica(db.Model):
     __tablename__ = 'jelo_kosarica'
-    jeloID = db.Column(db.Integer, primary_key = True)
+    jeloKosaricaID = db.Column (db.Integer, primary_key = True, autoincrement = True)
+    jeloID = db.Column(db.Integer) #zapravo redundantno mozdaaa
     naziv = db.Column(db.Unicode(128))
     fotoJeloIme = db.Column(db.Unicode(128))
     cijena = db.Column(db.Float)
@@ -150,12 +221,16 @@ class JeloKosarica(db.Model):
     kolicina = db.Column(db.Integer) # kolicina
     sessionID = db.Column(db.String(128))
 
+    #mozda je djelatnicima nebitna cijena, ali neka im to da znaju sumirat
     def __repr__(self):
-        return "Naziv: {}, cijena: {}, kolicina: {}".format(self.naziv.encode('utf-8'), 
-                                                                           self.cijena, self.kolicina)
-
+        return "Naziv: {}, cijena komada: {}kn, količina: {}, opcija: {}".format(self.naziv.encode('utf-8'), 
+                                            self.cijena, self.kolicina, 'Nema dodatne opcije' if self.opcija is None else self.opcija.encode('utf-8') )
+    
     def __init__(self,**kwargs):
         super(JeloKosarica,self).__init__(**kwargs)
+    
+    def setKolicina (self, kolicina):
+        self.kolicina = kolicina
 
 
 

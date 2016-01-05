@@ -17,10 +17,20 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{url_for('main.index')}}">Home</a></li>
                 <li><a href="{{url_for('main.komentari')}}">Komentari</a></li>
-                <li><a href="{{url_for('main.ispisi_korisnike')}}">Pokazi korisnike</a></li>
-                <li><a href="{{url_for('main.dodaj_korisnika')}}">Dodaj korisnika</a></li>
+                {% if current_user.is_authenticated and current_user.smije(Dozvole.DODAJ_DJELATNIKA) %}
+                <li><a href="{{url_for('main.popis_djelatnika')}}">Popis djelatnika</a></li>
+                {% endif %}
+
                 <li><a href=" {{url_for('main.prikazi_meni')}}">Meni</a></li>
                 <li><a href=" {{url_for('main.prikazi_kosaricu')}}">Košarica</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('autentifikacija.odjava') }}">{{current_user.korisnikKorisIme}} Odjavi se</a></li>
+                {% else %}
+                <li><a href="{{ url_for('autentifikacija.registracija') }}">Registriraj se</a></li>
+                <li><a href="{{ url_for('autentifikacija.prijava') }}">Prijavi se</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>

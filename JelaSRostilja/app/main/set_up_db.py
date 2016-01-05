@@ -3,9 +3,12 @@ from ..models import *
 # da smo pravi citali bi smo podatke iz datoteke i postavili podatke ovdje, ali cemu, baza je ionako mala
 # mozda kasnije ak ce bit vremena
 def init_insert_into_db():  
+  #  db.reflect() #jer drop all nekad djelomicno faila
     db.drop_all()
     db.create_all()
-    
+    Uloga.dodaj_uloge()
+    Korisnik.dodaj_admina()
+    Restoran.dodaj_restoran()
     kategorija1 = Kategorija (
         kategorijaID = 1, # db.Column(db.Integer, primary_key = True)
         kategorijaIme = 'dnevni meni' # db.Column(db.String(128))
@@ -31,7 +34,7 @@ def init_insert_into_db():
     jelo1 = Jelo ( 
         jeloID = 1, # db.Column(db.Integer, primary_key = True)
         naziv = 'Hrskava patka s umakom (po izboru)', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic1.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '1.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 40, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -41,7 +44,7 @@ def init_insert_into_db():
     jelo2 = Jelo ( 
         jeloID = 2, # db.Column(db.Integer, primary_key = True)
         naziv = 'Piletina s povrćem'.decode('utf-8'), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic2.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '2.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 35, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -52,7 +55,7 @@ def init_insert_into_db():
     jelo3 = Jelo ( 
         jeloID = 3, # db.Column(db.Integer, primary_key = True)
         naziv = '3 vrste mesa s povrćem'.decode('utf-8'), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic3.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '3.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 30, # db.Column(db.Float)
         dostupnost = False, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -63,7 +66,7 @@ def init_insert_into_db():
     jelo4 = Jelo ( 
         jeloID = 4, # db.Column(db.Integer, primary_key = True)
         naziv = 'Japanski Yakitori', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic4.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '4.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 30, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -73,7 +76,7 @@ def init_insert_into_db():
     jelo5 = Jelo ( 
         jeloID = 5, # db.Column(db.Integer, primary_key = True)
         naziv = 'Proljetne roladice s kozicama', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic5.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '5.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 21, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -83,7 +86,7 @@ def init_insert_into_db():
     jelo6 = Jelo ( 
         jeloID = 6, # db.Column(db.Integer, primary_key = True)
         naziv = 'Vegeterijanske proljetne rolice', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic6.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '6.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 12, # db.Column(db.Float)
         dostupnost = False, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -93,7 +96,7 @@ def init_insert_into_db():
     jelo7 = Jelo ( 
         jeloID = 7, # db.Column(db.Integer, primary_key = True)
         naziv = 'Čips od jastoga & slatko-kiseli umak'.decode( 'utf-8' ), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic7.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '7.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 12, # db.Column(db.Float)
         dostupnost = False, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -104,7 +107,7 @@ def init_insert_into_db():
     jelo8 = Jelo ( 
         jeloID = 8, # db.Column(db.Integer, primary_key = True)
         naziv = 'Pohano povrće & slatko-kiseli umak'.decode('utf-8'), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic8.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '8.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 12, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -115,7 +118,7 @@ def init_insert_into_db():
     jelo9 = Jelo ( 
         jeloID = 9, # db.Column(db.Integer, primary_key = True)
         naziv = 'Pizza Capriciosa', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic9.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '9.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 36, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -125,7 +128,7 @@ def init_insert_into_db():
     jelo10 = Jelo ( 
         jeloID = 10, # db.Column(db.Integer, primary_key = True)
         naziv = 'Pizza Quattro Formaggi', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic10.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '10.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 38, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -135,9 +138,9 @@ def init_insert_into_db():
     jelo11 = Jelo ( 
         jeloID = 11, # db.Column(db.Integer, primary_key = True)
         naziv = 'Pizza Picante', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic11.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '11.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 38, # db.Column(db.Float)
-        dostupnost = True, # b.Column(db.Boolean)
+        dostupnost = False, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
         kategorijaID = 3  # db.Column(db.Integer, db.ForeignKey('kategorija.kategorijaID')) #parentID
         # opcije =  db.relationship("Opcija", secondary=Jelo_Ima_Opcija, back_populates="jela"), kasnije popunimo ju
@@ -145,7 +148,7 @@ def init_insert_into_db():
     jelo12 = Jelo ( 
         jeloID = 12, # db.Column(db.Integer, primary_key = True)
         naziv = 'Slavnoska pizza', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic12.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '12.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 40, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -155,7 +158,7 @@ def init_insert_into_db():
     jelo13 = Jelo ( 
         jeloID = 13, # db.Column(db.Integer, primary_key = True)
         naziv = 'Gurmanska pizza', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic13.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '13.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 40, # db.Column(db.Float)
         dostupnost = False, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -165,7 +168,7 @@ def init_insert_into_db():
     jelo14 = Jelo ( 
         jeloID = 14, # db.Column(db.Integer, primary_key = True)
         naziv = 'Pljeskavica & prilozi', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic14.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '14.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 40, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = True, # db.Column (db.Boolean)
@@ -175,7 +178,7 @@ def init_insert_into_db():
     jelo15 = Jelo ( 
         jeloID = 15, # db.Column(db.Integer, primary_key = True)
         naziv = 'Mali ćevapi & prilozi'.decode('utf-8'), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic15.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '15.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 32, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -185,7 +188,7 @@ def init_insert_into_db():
     jelo16 = Jelo ( 
         jeloID = 16, # db.Column(db.Integer, primary_key = True)
         naziv = 'Veliki ćevapi & prilozi'.decode('utf-8'), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic16.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '16.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 42, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -195,7 +198,7 @@ def init_insert_into_db():
     jelo17 = Jelo ( 
         jeloID = 17, # db.Column(db.Integer, primary_key = True)
         naziv = 'Bečki odrezak & prilozi'.decode('utf-8'), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic17.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '17.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 40, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -206,7 +209,7 @@ def init_insert_into_db():
     jelo18 = Jelo ( 
         jeloID = 18, # db.Column(db.Integer, primary_key = True)
         naziv = 'Pohani pureći odrezak & prilozi'.decode('utf-8'), # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic18.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '18.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 45, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -217,7 +220,7 @@ def init_insert_into_db():
     jelo19 = Jelo ( 
         jeloID = 19, # db.Column(db.Integer, primary_key = True)
         naziv = 'Grah salata', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic19.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '19.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 16, # db.Column(db.Float)
         dostupnost = True, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
@@ -228,9 +231,9 @@ def init_insert_into_db():
     jelo20 = Jelo ( 
         jeloID = 20, # db.Column(db.Integer, primary_key = True)
         naziv = 'Sezonska salata', # db.Column(db.String(128)),
-        fotoJeloIme = 'Pic20.jpg', # db.Column(db.String(128)) #mozda ovo ime
+        fotoJeloIme = '20.jpg', # db.Column(db.String(128)) #mozda ovo ime
         cijena = 16, # db.Column(db.Float)
-        dostupnost = True, # b.Column(db.Boolean)
+        dostupnost = False, # b.Column(db.Boolean)
         cestoNarucivano = False, # db.Column (db.Boolean)
         kategorijaID = 5  # db.Column(db.Integer, db.ForeignKey('kategorija.kategorijaID')) #parentID
         # opcije =  db.relationship("Opcija", secondary=Jelo_Ima_Opcija, back_populates="jela"), kasnije popunimo ju

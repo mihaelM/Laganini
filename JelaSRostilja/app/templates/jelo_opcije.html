@@ -1,18 +1,32 @@
 ﻿{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
+<!--kao preporuca se da ovo bude u zasebnom fileu, ali ovom nasem slucaju ovako je kompaktnije-->
+<script src="{{ url_for( 'static', filename = './js/validateForm.js' ) }}"></script>
+
+
 Naziv: {{jelo.naziv}}<br />
 Cijena: {{jelo.cijena}}kn<br />
+
+{% if exist %}
+
+{% set my_string = './img/' + jelo.fotoJeloIme %}
+<img src="{{ url_for( 'static', filename = my_string ) }}" width="50%" height="50%" />                  <br />
+
+{% endif %}
+
 Dostupnost: {% if jelo.dostupnost %} Dostupno {% else %} Nedostupno {% endif %} <br />
 Često naručivano:  {% if jelo.cestoNarucivano %} Da {% else %} Ne {% endif %}<br />
 <!-- sada slijede opcije-->
 <br />
 
+{% if jelo.dostupnost %}
+
 {% if jelo.opcije %}
 <i> Odaberite jedan ili nula od dodatnih priloga: </i><br />
 {% endif %}
 
-<form method="post" action="/meni"> 
+<form method="post" name="myForm" onsubmit="return validateForm()" action="/meni"> 
 
   {% if jelo.opcije %}
     {% for opcija in jelo.opcije %}
@@ -26,5 +40,8 @@ Dostupnost: {% if jelo.dostupnost %} Dostupno {% else %} Nedostupno {% endif %} 
     <button type="submit"> Dodajte jelo u košaricu </button> <!---->
     <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
 </form>
+
+
+{% endif %}
 
 {% endblock %}
