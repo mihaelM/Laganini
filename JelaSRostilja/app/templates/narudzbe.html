@@ -1,0 +1,62 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+
+<div class="row">
+    <div class="col-md-8">
+
+     U trenutku kada se prvi djelatnik prijavi za zaduženje za narudžbu ona se smatra prihvaćenom te sustav autmatski šalje mail o potvrdi.
+     Nakon toga djelatnici kada zaključe da je narudžba obavljena mogu izbrisati narudžbu i ona se miče s popisa.
+     Ukoliko se narudžba izbriše prije nego što je prihvati ijedan djelatnik sustav automatski šalje mail da narudžba nije potvrđena
+     i narudžba se također briše s popisa. Postoji opcija za snimanje tekstualnog oblika narudžbe.
+
+ 
+<br />
+<br /> 
+
+{% if narudzbe %}
+
+<p> Narudžbe </p>
+
+<ul>
+    {% for narudzba in narudzbe %}
+    <li>
+      {% set djelatnici = narudzba.ispisKorisnici() %}
+      <b> Adresa : </b> {{narudzba.adresa}} <br />
+      <b> Kat: </b> {{narudzba.kat}} <br />
+      <b> Kontakt : </b>  {{narudzba.kontakt_broj}} <br />
+      <b> E-mail : </b> {{narudzba.email}} <br />
+      <b>Plaćanje : </b> {{narudzba.placanje}} <br />
+      <b> Opis  </b>: {{narudzba.opisNarudzbe}} <br />
+      <b> Ukupna cijena : </b> {{narudzba.cijenaHrane + narudzba.narudzbaCijenaDostave}}kn  <br />
+       <b> Djelatnici: </b> {{djelatnici}} <br />
+
+      <form method="post" style="display:inline" action="/narudzbe/spremi">
+          <input type="hidden" value="{{narudzba.narudzbaID}}" name="narudzbaID" />
+            {{ wtf.form_field(formIzlistaj.submit) }}
+      </form>
+
+      <form method="post" style="display:inline" action="/narudzbe/brisi">
+          <input type="hidden" value="{{narudzba.narudzbaID}}" name="narudzbaID" />
+            {{ wtf.form_field(formIzbrisi.submit) }}
+      </form>
+        {% if not djelatnik in narudzba.korisnici %}
+        <form method="post" style="display:inline" action="/narudzbe/prihvati">
+            <input type="hidden" value="{{narudzba.narudzbaID}}" name="narudzbaID" />
+            {{ wtf.form_field(formPotvrda.submit) }}
+        </form>
+        {% endif %}
+        <br /> <br />
+    </li>
+    
+    {% endfor %}
+</ul>
+
+{% else %}
+        <p> Trenutno nema narudžbi. </p>
+{% endif %}
+
+   </div>
+ </div>
+
+{% endblock %}

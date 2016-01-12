@@ -1,6 +1,12 @@
 ﻿{% extends "bootstrap/base.html" %}
+{% block head %} <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename = './css/formStyle.css' ) }}" /> 
+{{super() }}
 {% block title %}Projekt{% endblock %}
+
+{% endblock %}
+
 {% block navbar %}
+<!-- css includanje je tu -->
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -11,7 +17,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{url_for('main.index')}}">Projekt</a>
+            <a class="navbar-brand" href="{{url_for('main.index')}}">WILD8</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -21,8 +27,19 @@
                 <li><a href="{{url_for('main.popis_djelatnika')}}">Popis djelatnika</a></li>
                 {% endif %}
 
+                {% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
+                <li><a href="{{url_for('main.statistika')}}">Statistika</a></li>
+                {% endif %}
+
                 <li><a href=" {{url_for('main.prikazi_meni')}}">Meni</a></li>
+                {% if not current_user.is_authenticated or not current_user.smije(Dozvole.ODRADI_NARUDZBU) %} <!-- nije logiran (znaci korisnik) ili korisnik -->
                 <li><a href=" {{url_for('main.prikazi_kosaricu')}}">Košarica</a></li>
+                {% endif %}
+
+                {% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
+                <li><a href=" {{url_for('main.prikazi_narudzbe')}}">Narudžbe</a></li>
+                {% endif %}
+               
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}

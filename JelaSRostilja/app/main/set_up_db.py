@@ -1,14 +1,29 @@
-﻿from .. import db
+﻿# -*- coding: utf-8 -*-
+from .. import db
 from ..models import *
-# da smo pravi citali bi smo podatke iz datoteke i postavili podatke ovdje, ali cemu, baza je ionako mala
-# mozda kasnije ak ce bit vremena
+from dodajKorisnike import *
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# (načelno) TREBA ZAKOMENTIRATI CIJELI SADRŽAJ CIJELE FUNKCIJE (NE I IME) FUNKCIJE init_insert_into_db(), AKO ŽELIMO DA NAM OSTANU PODATCI OD PROŠLOG POKRETANJA !!!
+# ILI ODKOMENTIRATI AKO NE ŽELIMO
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+'''
+ovako
+recimo
+'''
+
 def init_insert_into_db():  
   #  db.reflect() #jer drop all nekad djelomicno faila
+  
     db.drop_all()
     db.create_all()
     Uloga.dodaj_uloge()
     Korisnik.dodaj_admina()
     Restoran.dodaj_restoran()
+    insert_korisnici()
+
+    uloga_djelatnik = Uloga.query.filter_by(imeUloge = "Djelatnik").first()
+    dodaj_korisnika("Dj_Ivo", "Ivo", "dj.i.", 'Ivić'.decode('utf-8'), uloga_djelatnik)
+
     kategorija1 = Kategorija (
         kategorijaID = 1, # db.Column(db.Integer, primary_key = True)
         kategorijaIme = 'dnevni meni' # db.Column(db.String(128))
@@ -334,4 +349,4 @@ def init_insert_into_db():
 
     novaKategorija = Kategorija.query.filter_by(kategorijaID=1).first()
     print (novaKategorija.kategorijaIme)
-    
+ 

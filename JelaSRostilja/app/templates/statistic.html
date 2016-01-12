@@ -1,0 +1,16 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+
+<b> Promet: </b> {{'%0.2f'| format(promet|float)}}kn <br />
+<b> Prosječna cijena narudžbe: </b> {{'%0.2f'| format(avgPrice|float)}}kn <br />
+<b> Tri (ili manje) najnaručivanijih jela su: </b> <br />
+
+<ul>
+    {% for el in top3 %}
+    <li>
+        Jelo {{el[0]}} je naručeno {{el[1]}} puta.
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

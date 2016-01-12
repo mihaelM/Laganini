@@ -1,0 +1,7 @@
+p {
+     color:darkblue;
+     font-size:larger;
+}
+.selector{
+    word-wrap: break-word;      /* IE 5.5-7 */
+}

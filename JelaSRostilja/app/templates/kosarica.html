@@ -5,31 +5,47 @@
 <!--dobro da ovo treba preselit u poseban fajl..-->
 
 {% if jelaKosarica.count() > 0 %}
+<!-- moramo imati brojac za myIme i tako to eh-->
+<b> Sadržaj košarice: </b> <br /> <br />
 
 <ul>
     {% for jelo in jelaKosarica %}
-    <li> {{jelo}} 
-   
-     <form method="post" name="myForm" action="/kosarica/promijeni_broj" onsubmit="return validateForm()">
-            <input type="hidden" value="{{jelo.jeloKosaricaID}}" name="jeloID" />
-            <input type="number" name="kolicina" min="1" max="10" />   <button type="submit"> Postavite ponovo količinu </button> <!---->
+    <li> 
+    {{jelo}} 
+    
+     {% set ime = "myForm" + jelo.jeloKosaricaID|string %}
+     <form method="post" autocomplete="off" name = {{ime}} action="/kosarica/promijeni_broj" style = "display:inline" onsubmit="return validateForm(this)" >
+         <input type="hidden" value="{{jelo.jeloKosaricaID}}" name="jeloID" />  <!-- wtf.form_field(form.adresa) -->
+        
+        <br/>
+          {{  form1.kolicina.label }} : &nbsp;   {{form1.kolicina(class="css_class", value = "", min = 1, max = 10)}} <!--ovaj value rijesio problem-->
+
+         &nbsp; {{  wtf.form_field(form1.submit) }}        
      </form>
 
-      <form method="post" action="/kosarica/izbrisi">
+      <form method="post" style = "display:inline" action="/kosarica/izbrisi">  <!-- bitno da je ovaj inline !?-->
             <input type="hidden" value="{{jelo.jeloKosaricaID}}" name="jeloID" />
-            <button type="submit"> Izbrišite ovo jelo </button> <!---->
+            {{ wtf.form_field(form2.submit) }}
       </form>
       <br />
-         
+      <br />
     </li>
     {% endfor %}
+   
 </ul>
-Ukupna cijena košarice je: {{totalCijena}}kn.
-<form method="post" action="/kosarica/potvrda">
+    Ukupna cijena košarice s cijenom dostave ({{cijenaDostave}}kn) iznosi = {{totalCijena + cijenaDostave}}kn.
+    {% if totalCijena + cijenaDostave >= minNarudzba %}
+    <form method="post" action="/kosarica/potvrda">
 
-    <button type="submit"> Potvrdite sadržaj košarice </button> <!---->
-    <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
-</form>
+       {{ wtf.form_field(form3.submit) }} <!---->
+        <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
+    </form>
+    {% else %}
+    <br />
+    Niste postigli minimalnu cijenu košarice pa još ne možete potvrditi košaricu.
+    {% endif %}
+
+
 
 {% else %}
 

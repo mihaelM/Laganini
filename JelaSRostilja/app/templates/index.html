@@ -1,8 +1,25 @@
 ﻿{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
-{{restoran}}
-    {% if current_user.smije(Dozvole.DODAJ_DJELATNIKA) %}
+Osnovne informacije o Vašem i našem najdražem restoranu: <br />
+Naziv : {{restoran.naziv}}  <br />         
+Adresa : {{restoran.adresa}}   <br />
+Vlasnik : {{restoran.imeVlas}} {{restoran.prezVlas}}      <br />          
+Radno vrijeme : {{restoran.radnoVrijeme}}            <br />        
+Telefon : {{restoran.telefon}}                    <br />
+Iznos minimalne narudžbe : {{restoran.minNarudzba}}     <br />             
+Prosječno vrijeme dostave : {{restoran.proVrijemeDost}}   <br />                  
+Način plaćanja : {{restoran.nacinPlac}}            <br />        
+Cijena dostave : {{restoran.cijenaDostave}} kn     <br />             
+<!-- nema popusta, ništa, dostava 0 kn i to je to-->
+<br />
+{% if ocjena == -1 %}
+Restoran još nije ocijenjen.
+{% else %}
+Prosječna ocjena (1-5): {{ocjena}}.
+{% endif %}
+   
+ {% if current_user.smije(Dozvole.DODAJ_DJELATNIKA) %}
 {{wtf.quick_form(form)}}
     {% endif %}
 {% endblock %}

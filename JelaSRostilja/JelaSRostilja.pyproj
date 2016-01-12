@@ -46,11 +46,23 @@
     <Compile Include="app\autentifikacija\forms.py" />
     <Compile Include="app\autentifikacija\routes.py" />
     <Compile Include="app\autentifikacija\__init__.py" />
+    <Compile Include="app\main\dodajKorisnike.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\main\error_handle.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\main\forms.py" />
+    <Compile Include="app\main\sendmail.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\main\set_up_db.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\main\routes.py" />
+    <Compile Include="app\main\statistics.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\main\__init__.py" />
     <Compile Include="app\models.py" />
     <Compile Include="app\__init__.py" />
@@ -58,6 +70,9 @@
     <Compile Include="start.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\static\css\formStyle.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="app\static\img\1.jpg" />
     <Content Include="app\static\img\10.jpg" />
     <Content Include="app\static\img\11.jpg" />
@@ -82,8 +97,10 @@
     <Content Include="app\templates\komentari.html" />
     <Content Include="app\templates\kosarica.html" />
     <Content Include="app\templates\meni.html" />
+    <Content Include="app\templates\narudzbe.html" />
     <Content Include="app\templates\podatci_narudzba.html" />
     <Content Include="app\templates\popis_djelatnika.html" />
+    <Content Include="app\templates\statistic.html" />
     <Content Include="app\templates\uspjesna_narudzba.html" />
     <Content Include="requirements.txt" />
   </ItemGroup>

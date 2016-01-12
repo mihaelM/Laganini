@@ -5,4 +5,5 @@ WTForms
 Flask-WTF
 Flask-Bootstrap
 Flask-Migrate
+Flask-Mail
 Werkzeug

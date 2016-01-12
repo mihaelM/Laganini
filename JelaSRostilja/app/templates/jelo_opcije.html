@@ -1,43 +1,48 @@
 ﻿{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
-<!--kao preporuca se da ovo bude u zasebnom fileu, ali ovom nasem slucaju ovako je kompaktnije-->
 <script src="{{ url_for( 'static', filename = './js/validateForm.js' ) }}"></script>
+<!--dobro da ovo treba preselit u poseban fajl..-->
 
 
-Naziv: {{jelo.naziv}}<br />
-Cijena: {{jelo.cijena}}kn<br />
+<b> Naziv: </b> {{jelo.naziv}}<br /> 
+<b> Cijena: </b> {{jelo.cijena}}kn<br /> 
+<b> Dostupnost: </b> {% if jelo.dostupnost %} Dostupno {% else %} Nedostupno {% endif %} <br />
+<b> Često naručivano: </b>  {% if jelo.cestoNarucivano %} Da {% else %} Ne {% endif %}<br /> <br />
 
 {% if exist %}
 
 {% set my_string = './img/' + jelo.fotoJeloIme %}
-<img src="{{ url_for( 'static', filename = my_string ) }}" width="50%" height="50%" />                  <br />
+<img src="{{ url_for( 'static', filename = my_string ) }}" width="50%" height="50%" />                  <br /> 
 
 {% endif %}
 
-Dostupnost: {% if jelo.dostupnost %} Dostupno {% else %} Nedostupno {% endif %} <br />
-Često naručivano:  {% if jelo.cestoNarucivano %} Da {% else %} Ne {% endif %}<br />
 <!-- sada slijede opcije-->
 <br />
 
-{% if jelo.dostupnost %}
+{% if jelo.dostupnost and not current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
 
 {% if jelo.opcije %}
-<i> Odaberite jedan ili nula od dodatnih priloga: </i><br />
+<i>  Odaberite jedan ili nula od dodatnih priloga:</i> &nbsp; &nbsp; 
 {% endif %}
 
-<form method="post" name="myForm" onsubmit="return validateForm()" action="/meni"> 
+{% set ime = "myForm" %}
+<form method="post" name={{ime}} action="/meni" style="display:inline" onsubmit="return validateForm(this)"> 
 
+  <input type="hidden" name="jeloID" value="{{jelo.jeloID}}">
   {% if jelo.opcije %}
-    {% for opcija in jelo.opcije %}
-          <input type="radio" name="opcija" value="{{opcija.opcija}}">{% set kon_opcija = ' ' + opcija.opcija  %} {{kon_opcija}} <br/>
-    {% endfor %}
+    <p style="display:inline" > <!--text-indent: 21em;-->
+        {% for opcija in jelo.opcije %}
+        <input type="radio" style="display:inline" name="opcija" value="{{opcija.opcija}}">{% set kon_opcija = ' ' + opcija.opcija  %} {{kon_opcija}} &emsp;
+        {% endfor %}
+    </p>
+
+    <br> <br />
   {% endif %}
   
-    Odaberite broj porcija (1 - 10) : <input type="number" name="kolicina" min="1" max="10"> <br />
+   {{  form1.kolicina.label }} : &nbsp;   {{form1.kolicina(class="css_class", value = "", min = 1, max = 10)}} <!--ovaj value rijesio problem-->
+    <br />  {{  wtf.form_field(form1.submit) }}
 
-    <input type="hidden" name="jeloID" value="{{jelo.jeloID}}">
-    <button type="submit"> Dodajte jelo u košaricu </button> <!---->
     <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
 </form>
 
