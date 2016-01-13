@@ -112,9 +112,12 @@ def popis_djelatnika():
             djelatnik=Korisnik.query.filter_by(korisnikID=form1.id.data).first()
             db.session.delete(djelatnik)
             db.session.commit()
-            flash('Korisnik uspjesno obrisan')
+            flash('Djelatnik uspjesno obrisan')
             return redirect(url_for('main.popis_djelatnika'))
         if form2.validate_on_submit():
+            if(Korisnik.query.filter_by(korisnikKorisIme=form2.korisIme.data).first() is not None):
+                flash('Korisnicko ime vec postoji')
+                return redirect(url_for('main.popis_djelatnika'))
             djelatnik=Korisnik(ime=form2.ime.data,
                               prezime=form2.prezime.data,
                               korisnikKorisIme=form2.korisIme.data,
@@ -129,22 +132,6 @@ def popis_djelatnika():
     djelatnici = pagination.items
     return render_template('popis_djelatnika.html',djelatnici=djelatnici,pagination=pagination,form1=form1,form2=form2)
 
-#@main.route('/dodaj_djelatnika',methods=['GET','POST'])
-#def dodaj_djelatnika():
-#    form=UnosDjelatnika()
-#    if request.method=='POST':
-#        if form.validate_on_submit():
-#            djelatnik=Korisnik(ime=form.ime.data,
-#                              prezime=form.prezime.data,
-#                              korisnikKorisIme=form.korisIme.data,
-#                              korisnikPas=form.password.data,
-#                              uloga=Uloga.query.filter_by(imeUloge="Djelatnik").first())
-#            db.session.add(djelatnik)
-#            flash('Novi djelatnik uspjesno dodan')
-#    else:
-#        return render_template('dodaj_djelatnika.html',form=form)
-
-#    return redirect(url_for('main.popis_djelatnika'))
 
 @main.route('/korisnik/<int:id>')
 def prikazi_korisnika(id):

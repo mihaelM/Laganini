@@ -1,13 +1,10 @@
 default_etree
-surrogatePairToCodepoint
-supports_lone_surrogates
-text_type
+moduleFactoryFactory
+MethodDispatcher
 absolute_import
 unicode_literals
 ModuleType
 division
-moduleFactoryFactory
-MethodDispatcher
-_x
+surrogatePairToCodepoint
 __all__
 isSurrogatePair

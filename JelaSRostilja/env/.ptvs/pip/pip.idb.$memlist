@@ -10,13 +10,13 @@ baseparser
 wheel
 exceptions
 vcs
-_vendor
+compat
 autocomplete
 ConfigOptionParser
 status_codes
 get_similar_commands
 deprecation
-compat
+_vendor
 CommandError
 commands_dict
 bazaar

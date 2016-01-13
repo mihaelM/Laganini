@@ -21,10 +21,10 @@ Request
 requote_uri
 RequestEncodingMixin
 iter_slices
-urlsplit
+ITER_CHUNK_SIZE
 CONTENT_CHUNK_SIZE
 StringIO
-ConnectionError
+to_native_string
 CaseInsensitiveDict
 urlencode
 parse_header_links
@@ -46,12 +46,11 @@ get_cookie_header
 ProtocolError
 Response
 super_len
-ITER_CHUNK_SIZE
-_copy_cookie_jar
+urlsplit
 urlunparse
 DEFAULT_REDIRECT_LIMIT
 ChunkedEncodingError
-to_native_string
+ConnectionError
 json
 StreamConsumedError
 MissingSchema

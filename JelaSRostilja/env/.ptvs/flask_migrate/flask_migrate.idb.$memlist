@@ -7,8 +7,6 @@ merge
 os
 alembic_version
 branches
-stamp
-downgrade
 migrate
 show
 heads
@@ -17,10 +15,8 @@ v
 revision
 __alembic_version__
 Manager
-upgrade
 edit
 Config
 argparse
 current_app
 command
-_get_config

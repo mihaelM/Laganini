@@ -1,5 +1,5 @@
 op
-testing
+ddl
 path
 __version__
 runtime
@@ -9,7 +9,7 @@ util
 script
 config
 sys
-ddl
+testing
 environment
 operations
 command
