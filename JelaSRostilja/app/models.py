@@ -121,7 +121,7 @@ class Komentar(db.Model):
     klijentID=db.Column(db.Integer,db.ForeignKey('korisnik.korisnikID'))
     komentarID=db.Column(db.Integer,primary_key=True)
     tekstKomentara=db.Column(db.Unicode(1000))
-    datum=db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    datum=db.Column(db.DateTime, index=True, default=datetime.now)
 
     def __init__(self,**kwargs):
         super(Komentar,self).__init__(**kwargs)

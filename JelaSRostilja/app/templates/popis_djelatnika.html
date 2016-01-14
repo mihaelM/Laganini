@@ -12,8 +12,9 @@
         <form method="POST" action="{{url_for('main.popis_djelatnika')}}">
             {{ form1.csrf_token }}
             {{form1.id(value=djelatnik.korisnikID)}}
-            {{form1.submit}}
+            {{wtf.form_field(form1.submit)}}
         </form>
+        
     </li>
     {% endfor %}
 </ul>

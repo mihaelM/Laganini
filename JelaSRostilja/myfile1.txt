@@ -1,8 +1,8 @@
- Adresa : a
+ Adresa : asdf
  Kat : None
- Kontakt : a
- Email: a
+ Kontakt : asdf
+ Email: asdf
  Placanje : Gotovinski
- Datum : 2016-01-12 18:46:54.007000
- Opis : Naziv: Pljeskavica & prilozi, Cijena: 40.0kn , Količina: 3, Opcija: nema dodatne opcije | Naziv: Grah salata, Cijena: 16.0kn , Količina: 1, Opcija: nema dodatne opcije
- Ukupna cijena : 141.0
+ Datum : 2016-01-14 16:53:34.375000
+ Opis : Naziv: Piletina s povrćem, Cijena: 35.0kn , Količina: 5, Opcija: nema dodatne opcije
+ Ukupna cijena : 180.0
