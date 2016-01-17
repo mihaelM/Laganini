@@ -1,0 +1,8 @@
+ Adresa : asdf
+ Kat : None
+ Kontakt : asd
+ Email: asdf
+ Placanje : Gotovinski
+ Datum : 2016-01-15 15:44:37.327000
+ Opis : Naziv: Hrskava patka s umakom (po izboru), Cijena: 40.0kn , Količina: 8, Opcija: nema dodatne opcije
+ Ukupna cijena : 325.0

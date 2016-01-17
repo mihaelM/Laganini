@@ -1,5 +1,94 @@
 ﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
-    Lorem ipsum...
-{% endblock %}
+
+<table border="0" style="border:hidden; background-color:#F3EADA">
+    <colgroup>
+        <col span="1" style="width: 50%;">
+        <col span="1" style="width: 50%;">
+    </colgroup>
+    <tr>
+        <td >
+            <h1 style="font-family:'Lucida Calligraphy'; text-align:center">Dobrodošli u {{restoran.naziv}} <br /> <br /></h1>
+            <h3 style="font-family:'Lucida Calligraphy'; text-align:center">- mjesto izvrsne hrane i još boljih ljudi</h3>
+        </td>
+        <td colspan="100">
+            <img src="../static/img/124.jpg" width="100%" height="50%" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="../static/img/img_4246.jpg" width="100%" height="30%" />
+        </td>
+        <td>
+
+            <table>
+                <colgroup>
+                    <col span="1" style="width: 50%;">
+                    <col span="1" style="width: 50%;">
+                </colgroup>
+                <tr>
+                    <td style="font-family:'lucida calligraphy'; text-align:center">
+                        Radno vrijeme :<br />{{restoran.radnoVrijeme}}            <br><br />
+                        Telefon :<br /> {{restoran.telefon}}                    <br /><br />
+                        Iznos minimalne narudžbe :<br /> {{restoran.minNarudzba}} kn
+
+                        <!-- nema popusta, ništa, dostava 0 kn i to je to-->
+                        <br />
+                      
+                    </td>
+
+                    <td style="font-family:'lucida calligraphy'; text-align:center ">
+                        Prosječno vrijeme dostave : {{restoran.proVrijemeDost}}   <br /><br />
+                        Način plaćanja :<br /> {{restoran.nacinPlac}}            <br /><br />
+                        Cijena dostave : <br />{{restoran.cijenaDostave}} kn     <br />
+                    </td>
+                </tr>
+                
+                <tr>
+                    
+                    <td style="background: #F3EADA; font-family:'Lucida Calligraphy';column-span:all; text-align:center ">
+                        <br />
+                        {% if ocjena == -1 %}
+                        Restoran još nije ocijenjen.
+                        {% else %}
+                        Prosječna ocjena (1-5): {{ocjena}}.
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
   
+<table border ="0" style="border:hidden; background-color:#F3EADA">  
+    <colgroup>
+        <col span="1" style="width: 50%;">
+        <col span="1" style="width: 50%;">
+    </colgroup>
+        <tr>
+            <td align="center" style="font-family:'Lucida Calligraphy'">
+                <h3>Quote</h3>
+            </td>
+            <td align="center" style="font-family:'Lucida Calligraphy'"><h3>O nama</h3></td>  
+        </tr>
+        <tr>
+            <td align="center" style="font-family:'Lucida Calligraphy'">
+                Počeli smo kao mali a sada smo veliki iako
+                nismo veliki ali smo dovoljno veliki da ne budemo mali.
+                Sada smo nadam se dovoljno bistri da sami odlučujemo o svojoj sudbini.
+            </td>  
+            <td align="center" style="font-family:'Lucida Calligraphy'">
+                Još davne 1991. godine, restoran je (tada zvan Restač) imao jaku reputaciju među
+                stanovnicima Novog Zagreba. Od kada ga, 2014. godine,
+                preuzimaju nadobudnih 8 prijatelja restoran je preimenovan u "{{restoran.naziv}}"
+                te poprima, uz stare kvalitete, nove, uzbudljive sadržaje.
+            </td>
+        </tr>
+
+</table>
+
+ {% if current_user.smije(Dozvole.DODAJ_DJELATNIKA) %}
+{{wtf.quick_form(form)}}
+    {% endif %}
+{% endblock %}

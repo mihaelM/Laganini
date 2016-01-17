@@ -1,0 +1,14 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{% endblock %}
+
+{% block page_content %}
+<div class="page-header" style="background:#F3EADA">
+    <h1 style="font-family:'Lucida Calligraphy'">Registracija</h1>
+</div>
+<div class="col-md-4" style="font-family:'Lucida Calligraphy'; background:#f3eada">
+    {{ wtf.quick_form(form) }}
+    <br>
+</div>
+{% endblock %}

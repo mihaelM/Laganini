@@ -1,0 +1,53 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+<script src="{{ url_for( 'static', filename = './js/validateForm.js' ) }}"></script>
+<!--dobro da ovo treba preselit u poseban fajl..-->
+
+
+    <b > Naziv: </b> {{jelo.naziv}}
+    <br />
+    <b> Cijena: </b> {{jelo.cijena}}kn
+    <br />
+    <b> Dostupnost: </b> {% if jelo.dostupnost %} Dostupno {% else %} Nedostupno {% endif %}
+    <br />
+    <b> Često naručivano: </b>  {% if jelo.cestoNarucivano %} Da {% else %} Ne {% endif %}
+    <br />
+    <br />
+    {% if exist %}
+
+    {% set my_string = './img/' + jelo.fotoJeloIme %}
+    <img src="{{ url_for( 'static', filename = my_string ) }}" width="50%" height="50%" />
+    <br />
+    {% endif %}
+
+    <!-- sada slijede opcije-->
+    <br />
+    {% if jelo.dostupnost and not current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
+
+    {% if jelo.opcije %}
+    <i>  Odaberite jedan ili nula od dodatnih priloga:</i> &nbsp; &nbsp;
+    {% endif %}
+
+    {% set ime = "myForm" %}
+    <form method="post" name={{ime}} action="/meni" style="display:inline" onsubmit="return validateForm(this)">
+        <input type="hidden" name="jeloID" value="{{jelo.jeloID}}">
+        {% if jelo.opcije %}
+        <p style="display:inline">
+            <!--text-indent: 21em;-->
+            {% for opcija in jelo.opcije %}
+            <input type="radio" style="display:inline" name="opcija" value="{{opcija.opcija}}">{% set kon_opcija = ' ' + opcija.opcija  %} {{kon_opcija}} &emsp;
+            {% endfor %}
+        </p>
+        <br> <br />
+        {% endif %}
+
+        {{  form1.kolicina.label }} : &nbsp;   {{form1.kolicina(class="css_class", value = "", min = 1, max = 10)}} <!--ovaj value rijesio problem-->
+        <br />  {{  wtf.form_field(form1.submit) }}
+
+        <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
+    </form>
+
+{% endif %}
+
+{% endblock %}

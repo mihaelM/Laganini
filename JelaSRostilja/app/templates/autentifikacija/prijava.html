@@ -1,14 +1,16 @@
 ﻿{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Prijava{% endblock %}
+{% block title %}{% endblock %}
 
 {% block page_content %}
-<div class="page-header">
-    <h1>Prijava</h1>
-</div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-    <br>
+<div style="background:#F3EADA">
+    <div class="page-header">
+        <h1 style="font-family:'Lucida Calligraphy'">Prijava</h1>
+    </div>
+    <div class="col-md-4" style="font-family:'Lucida Calligraphy'; background:#f3eada">
+        {{ wtf.quick_form(form, method="POST") }}
+        <br>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,54 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+<script src="{{ url_for( 'static', filename = './js/validateForm.js' ) }}"></script>
+<!--dobro da ovo treba preselit u poseban fajl..-->
+
+{% if jelaKosarica.count() > 0 %}
+<div style="background:#F3EADA">
+    <!-- moramo imati brojac za myIme i tako to eh-->
+    <b> Sadržaj košarice: </b> <br /> <br />
+    <ul>
+        {% for jelo in jelaKosarica %}
+        <li>
+            {{jelo}}
+
+            {% set ime = "myForm" + jelo.jeloKosaricaID|string %}
+            <form method="post" autocomplete="off" name={{ime}} action="/kosarica/promijeni_broj" style="display:inline" onsubmit="return validateForm(this)">
+                <input type="hidden" value="{{jelo.jeloKosaricaID}}" name="jeloID" />  <!-- wtf.form_field(form.adresa) -->
+
+                <br />
+                {{  form1.kolicina.label }} : &nbsp;   {{form1.kolicina(class="css_class", value = "", min = 1, max = 10)}} <!--ovaj value rijesio problem-->
+                &nbsp; {{  wtf.form_field(form1.submit) }}
+            </form>
+            <form method="post" style="display:inline" action="/kosarica/izbrisi">
+                <!-- bitno da je ovaj inline !?-->
+                <input type="hidden" value="{{jelo.jeloKosaricaID}}" name="jeloID" />
+                {{ wtf.form_field(form2.submit) }}
+            </form>
+            <br />
+            <br />
+        </li>
+        {% endfor %}
+
+    </ul>
+    Ukupna cijena košarice s cijenom dostave ({{cijenaDostave}}kn) iznosi = {{totalCijena + cijenaDostave}}kn.
+    {% if totalCijena + cijenaDostave >= minNarudzba %}
+    <form method="post" action="/kosarica/potvrda">
+        {{ wtf.form_field(form3.submit) }} <!---->
+        <!-- tu sad negdje treba biti opcija stavi i odabir količine; implementacija : bolje preko jelo2 nego stavi (neće nam ni trebati) -->
+    </form>
+    {% else %}
+    <br />
+    Niste postigli minimalnu cijenu košarice pa još ne možete potvrditi košaricu.
+    {% endif %}
+
+
+
+    {% else %}
+    <div style="background:#F3EADA">
+        <p>Košarica je prazna!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

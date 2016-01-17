@@ -1,0 +1,32 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+
+<div style="background:#F3EADA">
+    <form method=post action="/kosarica/potvrdjena">
+        <dl style="font-family:'Lucida Calligraphy'">
+            {{  wtf.form_field (form.adresa) }}
+            {{  wtf.form_field (form.ime) }}
+            {{  wtf.form_field (form.prezime)}}
+            {{  wtf.form_field (form.kat)}}
+            {{  wtf.form_field (form.kontakt_broj_mob)}}
+            {{  wtf.form_field (form.email) }}
+            {{  wtf.form_field (form.uloga) }}
+            {{  wtf.form_field (form.submit) }}
+        </dl>
+    </form>
+</div>
+{% endblock %}
+
+<!--
+     adresa = StringField('Adresa dostave (ulica i kućni broj)', validators = [DataRequired()])
+    # ne mora biti logiran xD
+    ime = StringField('Ime naručitelja', validators = [DataRequired()]) #ipak mislim da je ok da ovo piše
+    prezime = StringField ('Prezime naručitelja', validators = [DataRequired()])
+    kat = IntegerField ('Kat', validators = [DataRequired()])
+    kontakt_broj_mob = StringField('Broj telefona/mobitela', validators = [DataRequired()])
+    email = StringField('E - mail', validators = [DataRequired()])
+    uloga=SelectField('Plaćanje',choices=[('Gotovinski','Gotovinski'), ('Kartično','Kartično')])
+    submit=SubmitField('Konačna potvrda narudžbe')
+    {{ wtf.quick_form(form) }}
+-->

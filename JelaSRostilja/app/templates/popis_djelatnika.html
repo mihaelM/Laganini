@@ -1,0 +1,25 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+<div style="background:#F3EADA">
+<h1 style="font-family:'Lucida Calligraphy'">Popis svih djelatnika</h1>
+<ul style="font-family:'Lucida Calligraphy'">
+    {% for djelatnik in djelatnici %}
+    <li style="font-family:'Lucida Calligraphy'">
+        Ime: {{djelatnik.ime}}
+        Prezime: {{djelatnik.prezime}}
+        Korisnicko ime:{{djelatnik.korisnikKorisIme}}
+        <a href="{{url_for('main.prikazi_korisnika',id=djelatnik.korisnikID)}}">Vise informacija</a>
+        <form method="POST" action="{{url_for('main.popis_djelatnika')}}">
+            {{ form1.csrf_token }}
+            {{form1.id(value=djelatnik.korisnikID)}}
+            {{wtf.form_field(form1.submit)}}
+        </form>
+
+    </li>
+    {% endfor %}
+</ul>
+<h1>Dodaj novog djelatnika</h1>
+{{wtf.quick_form(form2)}}
+    </div>
+{% endblock %}

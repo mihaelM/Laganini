@@ -1,30 +1,51 @@
 ﻿{% extends "bootstrap/base.html" %}
-{% block title %}Projekt{% endblock %}
+{% block head %} <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename = './css/formStyle.css' ) }}" /> 
+{{super() }}
+{% block title %}{% endblock %}
+
+{% endblock %}
+
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
+<!-- css includanje je tu -->
+<div class="navbar navbar-inverse" role="navigation" style="font-family:'Lucida Calligraphy'; background:#DAEBB4; border:#DAEBB4">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle"
+            <button type="button" class="navbar-toggle "
                     data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" href="{{url_for('main.index')}}">WILD8</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{url_for('main.index')}}">Početna</a></li>
-                <li><a href="{{url_for('meni.meni')}}">Meni</a></li>
-                <li><a href="{{url_for('narudzba.kosarica')}}">Košarica</a></li>
-                <li><a href="{{url_for('komentiranje.komentari')}}">Komentari</a></li>
-                <li><a href="{{url_for('main.ispisi_korisnike')}}">Pokazi korisnike</a></li>
+                <li><a href="{{url_for('main.index')}}">Home</a></li>
+                <li><a href="{{url_for('main.komentari')}}">Komentari</a></li>
+                {% if current_user.is_authenticated and current_user.smije(Dozvole.DODAJ_DJELATNIKA) %}
+                <li><a href="{{url_for('main.popis_djelatnika')}}">Popis djelatnika</a></li>
+                {% endif %}
+
+                {% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
+                <li><a href="{{url_for('main.statistika')}}">Statistika</a></li>
+                {% endif %}
+
+                <li><a href=" {{url_for('main.prikazi_meni')}}">Meni</a></li>
+                {% if not current_user.is_authenticated or not current_user.smije(Dozvole.ODRADI_NARUDZBU) %} <!-- nije logiran (znaci korisnik) ili korisnik -->
+                <li><a href=" {{url_for('main.prikazi_kosaricu')}}">Košarica</a></li>
+                {% endif %}
+
+                {% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
+                <li><a href=" {{url_for('main.prikazi_narudzbe')}}">Narudžbe</a></li>
+                {% endif %}
+               
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('autentifikacija.odjava') }}">{{current_user.korisnikKorisIme}} Odjavi se</a></li>
                 {% else %}
-                <li><a href="{{url_for('registriranje.registracija')}}">Registriraj se</a></li>
+                <li><a href="{{ url_for('autentifikacija.registracija') }}">Registriraj se</a></li>
                 <li><a href="{{ url_for('autentifikacija.prijava') }}">Prijavi se</a></li>
                 {% endif %}
             </ul>
@@ -32,8 +53,15 @@
     </div>
 </div>
 {% endblock %}
+
 {% block content %}
 <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
     {% block page_content %}{% endblock %}
 </div>
 {% endblock %}

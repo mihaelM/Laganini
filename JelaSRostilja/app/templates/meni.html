@@ -1,0 +1,15 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+<ul style="background:#F3EADA">
+    {% set kategorija_prev_id = 1 %}
+    {% for jelo in jela %}
+    {% if kategorija_prev_id != jelo.kategorijaID %}
+        <br />
+    {% endif %}
+    <li style="font-family:'Lucida Calligraphy'">{{jelo}}<a href={{url_for('main.prikazi_jelo',id=jelo.jeloID)}}>Više informacija</a></li>
+
+    {% set kategorija_prev_id = jelo.kategorijaID %}
+    {% endfor %}
+</ul>
+{% endblock %}

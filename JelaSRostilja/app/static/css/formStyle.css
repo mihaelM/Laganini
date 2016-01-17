@@ -1,0 +1,27 @@
+p {
+     color:black;
+     font-size:larger;
+      font-family:'Lucida Calligraphy';
+}
+.selector{
+    word-wrap: break-word;      /* IE 5.5-7 */
+     font-family:'Lucida Calligraphy';
+   
+}
+
+b {
+    font-family:'Lucida Calligraphy'
+}
+
+br {
+    font-family:'Lucida Calligraphy'
+}
+
+i {
+    font-family: 'Lucida Calligraphy';
+}
+
+klasa {
+    background: #F3EADA;
+    background-color: #F3EADA;
+}

@@ -1,0 +1,8 @@
+ Adresa : z
+ Kat : None
+ Kontakt : zz
+ Email: z
+ Placanje : Gotovinski
+ Datum : 2016-01-12 19:39:33.073000
+ Opis : Naziv: Pljeskavica & prilozi, Cijena: 40.0kn , Količina: 1, Opcija: majoneza | Naziv: Pljeskavica & prilozi, Cijena: 40.0kn , Količina: 1, Opcija: ajvar | Naziv: Grah salata, Cijena: 16.0kn , Količina: 1, Opcija: nema dodatne opcije
+ Ukupna cijena : 101.0

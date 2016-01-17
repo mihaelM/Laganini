@@ -1,9 +1,0 @@
-﻿{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% block page_content %}
-<ul>
-    {% for jelo in jela %}
-    <li>{{jelo}}<a href="{{url_for('meni.prikazi_jelo',id=jelo.jeloID)}}">Vise informacija</a></li>
-    {% endfor %}
-</ul>
-{% endblock %}

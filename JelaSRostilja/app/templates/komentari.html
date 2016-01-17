@@ -1,0 +1,62 @@
+﻿{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+
+<div style="background:#F3EADA; font-family:'Lucida Calligraphy'">
+    <p style="color:black"> Komentiranje i ocjene </p>
+    {% if not current_user.smije(Dozvole.ODRADI_NARUDZBU)  %}
+
+    {% if current_user.is_authenticated %}
+
+    <!--ocjena submit-->
+    {% if current_user.ocjena == 0 %}
+    <b> Niste još nijednom ocijenili restoran.</b>
+    {% else %}
+    <b> Možete promijeniti vašu ocjenu restorana, vaša trenutna ocjena je : {{current_user.ocjena}}.  </b>
+    {% endif %}
+
+    <br /> <br />
+    <div class="row">
+        <div class="col-md-3">
+            {{wtf.quick_form(form2)}}
+
+        </div>
+        <div class="col-md-9">
+            {{wtf.quick_form(form)}}
+        </div>
+    </div>
+
+    {% else %}
+    Samo registirani korisnici smiju komentirati.
+
+    {% endif %}
+
+    <br />
+    {% endif %}
+
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            {% if komentari %}
+
+            <b> Stari komentari : </b> <br />
+            <ul>
+                {% for komentar in komentari %}
+                <li>
+                    {{komentar.datum.strftime("%d.%m.%Y. %H:%M")}} - {{Korisnik.query.filter_by(korisnikID=komentar.klijentID).first().korisnikKorisIme}} <br />
+                    <span class="selector">
+                        {{komentar.tekstKomentara}}
+                    </span>
+
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+
+            Još nema komentara.
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+    {% endblock %}
