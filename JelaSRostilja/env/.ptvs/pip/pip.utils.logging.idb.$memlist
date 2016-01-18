@@ -1,8 +1,7 @@
 logging
 colorama
-contextlib
-os
 indent_log
+os
 _color_wrap
 WINDOWS
 MaxLevelFilter
@@ -10,7 +9,7 @@ absolute_import
 _log_state
 get_indentation
 IndentingFormatter
-ensure_dir
+contextlib
 ColorizedStreamHandler
 BetterRotatingFileHandler
 threading

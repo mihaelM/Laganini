@@ -12,7 +12,7 @@ from statistics import *
 import uuid
 import os.path
 import os
-
+from wtforms import ValidationError
 '''
 Quote iz knjige => ako zelimo razlikovati narudzbe razlicith kupaca uzimamo ovo u obzir.
 The db.session database session is not related to the Flask session
@@ -75,7 +75,7 @@ def index():
         restoran.evPopust=float(form.evPopust.data)
         db.session.commit()
 
-        flash('Podaci uspjesno promjenjeni')
+        flash('Podaci uspješno promjenjeni')
         return redirect(url_for('main.index'))
     return render_template('index.html',form=form,restoran=restoran,ocjena=Restoran.izracunaj_ocjenu())
 
@@ -90,7 +90,7 @@ def komentari():
             komentar=Komentar(tekstKomentara=form.tekst.data,klijentID=current_user.korisnikID)
             db.session.add(komentar)
 
-            flash('Komentar uspjesno objavljen')
+            flash('Komentar uspješno objavljen')
             return redirect(url_for('main.komentari'))
         else:
             current_user.ocjena=form2.ocjena.data
@@ -112,11 +112,11 @@ def popis_djelatnika():
             djelatnik=Korisnik.query.filter_by(korisnikID=form1.id.data).first()
             db.session.delete(djelatnik)
             db.session.commit()
-            flash('Djelatnik uspjesno obrisan')
+            flash('Djelatnik uspješno obrisan')
             return redirect(url_for('main.popis_djelatnika'))
         if form2.validate_on_submit():
             if(Korisnik.query.filter_by(korisnikKorisIme=form2.korisIme.data).first() is not None):
-                flash('Korisnicko ime vec postoji')
+                flash('Korisničko ime već postoji')
                 return redirect(url_for('main.popis_djelatnika'))
             djelatnik=Korisnik(ime=form2.ime.data,
                               prezime=form2.prezime.data,
@@ -124,7 +124,7 @@ def popis_djelatnika():
                               korisnikPas=form2.password.data,
                               uloga=Uloga.query.filter_by(imeUloge="Djelatnik").first())
             db.session.add(djelatnik)
-            flash('Novi djelatnik uspjesno dodan')
+            flash('Novi djelatnik uspješno dodan')
             return redirect(url_for('main.popis_djelatnika'))
     query=Korisnik.query
     page = request.args.get('page', 1, type=int)
@@ -246,7 +246,7 @@ def izbrisi():
 
 # nisam radio potvrdu na 'normalan' nacin s wtf-om jer cim mi se ucita forma odmah je post, pa tu nesto steka ()
 
-@main.route('/kosarica/potvrda', methods = ['POST']) 
+@main.route('/kosarica/potvrda', methods = ['GET','POST']) 
 def potvrdi_kosaricu():
     #samo redirect na unos podataka o narurzbi
     form = PodaciNarudzbe()
@@ -276,35 +276,42 @@ def potvrdjena_kosarica():
     #print(opisNarudzbe) # za provjeru
 
     form = PodaciNarudzbe()
+    if form.validate_on_submit():
+        print("val")
+        narudzba = Narudzba(
+        adresa = form.adresa.data,
+        kat=form.kat.data,
+        kontakt_broj=form.kontakt_broj_mob.data,
+        email=form.email.data,
+        placanje=form.uloga.data, # ovo je trebalo biti placanje lol
+        opisNarudzbe = opisNarudzbe.decode('utf-8'), #ovo radi na neku foru
+        narudzbaCijenaDostave = cijenaDostave,
+        cijenaHrane = cijenaHrane
+        )
 
-    narudzba = Narudzba(
-    adresa = form.adresa.data,
-    kat=form.kat.data,
-    kontakt_broj=form.kontakt_broj_mob.data,
-    email=form.email.data,
-    placanje=form.uloga.data, # ovo je trebalo biti placanje lol
-    opisNarudzbe = opisNarudzbe.decode('utf-8'), #ovo radi na neku foru
-    narudzbaCijenaDostave = cijenaDostave,
-    cijenaHrane = cijenaHrane
-    )
-
-    db.session.add(narudzba) # dodavanje u bazu
+        db.session.add(narudzba) # dodavanje u bazu
    
-    #novo
-    for jeloKosarica in jelaKosarica:
-        for i in xrange(0, int(jeloKosarica.kolicina)):
-            stats = NarudzbaStatistika (
-                narudzbaID = narudzba.narudzbaID,
-                jeloID = jeloKosarica.jeloID,
-                cijena = jeloKosarica.cijena
-            )
-            db.session.add(stats)
+        #novo
+        for jeloKosarica in jelaKosarica:
+            for i in xrange(0, int(jeloKosarica.kolicina)):
+                stats = NarudzbaStatistika (
+                    narudzbaID = narudzba.narudzbaID,
+                    jeloID = jeloKosarica.jeloID,
+                    cijena = jeloKosarica.cijena
+                )
+                db.session.add(stats)
 
-    # e sad je pravo vrijeme za izbrisat trentunu kosaricu
-    JeloKosarica.query.filter_by(sessionID=session['uid']).delete()
+        # e sad je pravo vrijeme za izbrisat trentunu kosaricu
+        JeloKosarica.query.filter_by(sessionID=session['uid']).delete()
+        return render_template('uspjesna_narudzba.html')
+        
+    else:
+        for error in form.errors:
+            flash(form.errors[error][0])
+        return redirect(url_for('main.potvrdi_kosaricu'))
     
 
-    return render_template('uspjesna_narudzba.html')
+    
 
 def prikaz_narudzbi():
     narudzbe = Narudzba.query.order_by(Narudzba.narudzbaID.desc()) #ovaj paginate bas 

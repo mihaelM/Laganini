@@ -25,9 +25,6 @@
                 <li><a href="{{url_for('main.komentari')}}">Komentari</a></li>
                 {% if current_user.is_authenticated and current_user.smije(Dozvole.DODAJ_DJELATNIKA) %}
                 <li><a href="{{url_for('main.popis_djelatnika')}}">Popis djelatnika</a></li>
-                {% endif %}
-
-                {% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
                 <li><a href="{{url_for('main.statistika')}}">Statistika</a></li>
                 {% endif %}
 

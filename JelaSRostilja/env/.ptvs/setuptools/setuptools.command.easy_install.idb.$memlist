@@ -92,6 +92,7 @@ run_setup
 get_platform
 extract_wininst_cfg
 iteritems
+__file__
 PY3
 reraise
 Requirement

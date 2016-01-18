@@ -14,7 +14,6 @@ ConnectTimeoutError
 LocationParseError
 HTTPError
 PoolError
-ResponseNotChunked
 RequestError
 SystemTimeWarning
 ResponseError

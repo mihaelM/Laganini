@@ -13,7 +13,6 @@ SSLContext
 OP_NO_COMPRESSION
 create_default_context
 errno
-DEFAULT_CIPHERS
 HAS_SNI
 sha1
 warnings
@@ -22,5 +21,6 @@ assert_fingerprint
 SSLError
 PROTOCOL_SSLv23
 OP_NO_SSLv2
+_DEFAULT_CIPHERS
 create_urllib3_context
 resolve_ssl_version

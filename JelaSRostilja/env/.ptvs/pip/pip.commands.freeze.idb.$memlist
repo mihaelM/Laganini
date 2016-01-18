@@ -1,7 +1,5 @@
 absolute_import
-WheelCache
-freeze
-Command
 FreezeCommand
-pip
+Command
 sys
+freeze

@@ -1,6 +1,6 @@
 ﻿from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, SelectField, PasswordField, HiddenField, RadioField, IntegerField, FloatField
-from wtforms.validators import DataRequired,EqualTo, NumberRange, Email
+from wtforms.validators import DataRequired,EqualTo, NumberRange, Email, Regexp, Optional
 
 class UnosDjelatnika(Form):
     korisIme=StringField('Korisnicko ime', validators=[DataRequired()])
@@ -68,9 +68,9 @@ class PodaciNarudzbe(Form):
     # ne mora biti logiran xD
     ime = StringField('Ime naručitelja', validators = [DataRequired()]) #ipak mislim da je ok da ovo piše
     prezime = StringField ('Prezime naručitelja', validators = [DataRequired()])
-    kat = IntegerField ('Kat', validators = [DataRequired()])
+    kat = StringField ('Kat', validators = [DataRequired('Kat mora biti broj'),Regexp('^[0-9]*$',0,'Kat mora biti broj (stavite 0 za prizemlje)')])
     kontakt_broj_mob = StringField('Broj telefona/mobitela', validators = [DataRequired()])
-    email = StringField('E - mail', validators = [DataRequired(), Email()])
+    email = StringField('E - mail', validators = [DataRequired(), Email('Greska u e-mail adresi')])
     uloga=SelectField('Plaćanje',choices=[('Gotovinski','Gotovinski'), ('Kartično','Kartično')])
     submit=SubmitField('Konačna potvrda narudžbe')
 

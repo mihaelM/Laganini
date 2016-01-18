@@ -1,9 +1,7 @@
-UninstallCommand
+parse_requirements
 absolute_import
-WheelCache
 InstallRequirement
 Command
-parse_requirements
+UninstallCommand
 RequirementSet
-pip
 InstallationError
