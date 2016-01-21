@@ -1,0 +1,16 @@
+MetaData
+_fk_is_self_referential
+Column
+sqltypes
+ForeignKeyConstraint
+Index
+select
+util
+_columns_for_constraint
+OrderedDict
+_is_type_bound
+BatchOperationsImpl
+sql_schema
+cast
+ApplyBatchImpl
+Table

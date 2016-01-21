@@ -142,12 +142,12 @@ def prikazi_korisnika(id):
 @main.route('/meni', methods=['GET'])
 def prikazi_meni():
 
-    form = IzbrisiJelo()
     page = request.args.get('page', 1, type=int)
+    form = IzbrisiJelo()
     jela = Jelo.query.order_by(Jelo.jeloID.asc()).paginate(page, per_page=100,error_out=False).items
     # tu mozda jos queryjat (ili u modelu podataka po kategorijama)
-    
     return render_template('meni.html', jela = jela, form = form)
+
 
 @main.route('/brisi', methods=['POST'])
 def brisi_jelo():
@@ -155,8 +155,8 @@ def brisi_jelo():
     jeloID = request.form.get('jeloID')
     jelo = Jelo.query.filter_by(jeloID = request.form.get('jeloID') ).first()
     db.session.delete(jelo)
-
     form = IzbrisiJelo()
+
     page = request.args.get('page', 1, type=int)
     jela = Jelo.query.order_by(Jelo.jeloID.asc()).paginate(page, per_page=100,error_out=False).items
     # tu mozda jos queryjat (ili u modelu podataka po kategorijama)
@@ -164,7 +164,6 @@ def brisi_jelo():
 
 @main.route('/meni/<int:id>', methods=['GET'])
 def prikazi_jelo(id): # ukljucujuci opcije
-   
     jelo = Jelo.query.filter_by(jeloID=id).first()
     my_string = os.getcwd() + '/app/static/img/' + jelo.fotoJeloIme #sad ovo mi se ne svidja bas, al eto
   
