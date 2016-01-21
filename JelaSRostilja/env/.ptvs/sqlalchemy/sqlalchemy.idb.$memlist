@@ -12,7 +12,7 @@ union
 Column
 update
 Integer
-sql
+ext
 Date
 union_all
 ForeignKey
@@ -59,7 +59,7 @@ orm
 NCHAR
 TypeDecorator
 VARCHAR
-databases
+event
 Boolean
 except_all
 subquery
@@ -80,7 +80,7 @@ TIMESTAMP
 DefaultClause
 asc
 engine_from_config
-ext
+sql
 true
 outparam
 insert
@@ -121,8 +121,7 @@ LargeBinary
 exc
 create_engine
 select
-event
+databases
 PickleType
 UnicodeText
 table
-cutils

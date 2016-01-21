@@ -1,8 +1,8 @@
- Adresa : asdf
- Kat : None
- Kontakt : asd
- Email: asdf
+ Adresa : Vukomerec 30
+ Kat : 2
+ Kontakt : 098 95 333 73
+ Email: www.mihael@gmail.com
  Placanje : Gotovinski
- Datum : 2016-01-15 15:44:37.327000
- Opis : Naziv: Hrskava patka s umakom (po izboru), Cijena: 40.0kn , Količina: 8, Opcija: nema dodatne opcije
- Ukupna cijena : 325.0
+ Datum : 2016-01-19 14:08:02.216000
+ Opis : Naziv: Pizza Capriciosa, Cijena: 36.0kn , Količina: 1, Opcija: maslina | Naziv: Pljeskavica & prilozi, Cijena: 40.0kn , Količina: 2, Opcija: nema dodatne opcije
+ Ukupna cijena : 121.0

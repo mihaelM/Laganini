@@ -35,7 +35,6 @@ Distribution
 os
 windows_support
 find_packages
-tests
 compat
 __version__
 depends

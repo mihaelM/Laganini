@@ -20,7 +20,7 @@
     <RootNamespace>JelaSRostilja</RootNamespace>
     <CommandLineArguments>runserver</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <InterpreterId>{f49a640e-c200-48d7-ae38-f2f7de5f226f}</InterpreterId>
+    <InterpreterId>{d72840e8-47dd-465a-92d3-6ebf4a4868b5}</InterpreterId>
     <InterpreterVersion>2.7</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
-      <Id>{f49a640e-c200-48d7-ae38-f2f7de5f226f}</Id>
+      <Id>{d72840e8-47dd-465a-92d3-6ebf4a4868b5}</Id>
       <BaseInterpreter>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</BaseInterpreter>
       <Version>2.7</Version>
       <Description>env (Python 2.7)</Description>

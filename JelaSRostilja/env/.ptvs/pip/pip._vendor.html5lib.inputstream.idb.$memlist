@@ -27,6 +27,7 @@ non_bmp_invalid_codepoints
 spacesAngleBrackets
 encodings
 invalid_unicode_re
+invalid_unicode_no_surrogate
 EncodingParser
 absolute_import
 ascii_punctuation_re

@@ -1,7 +1,7 @@
 sys
+cache_from_source
 ask
-imp
-is_local
+indent_log
 os
 logger
 rmtree
@@ -12,7 +12,7 @@ UninstallPathSet
 tempfile
 UninstallationError
 dist_is_local
-indent_log
+is_local
 UninstallPthEntries
 WINDOWS
 uses_pycache

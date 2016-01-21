@@ -8,7 +8,11 @@
         <br />
     {% endif %}
     <li style="font-family:'Lucida Calligraphy'">{{jelo}}<a href={{url_for('main.prikazi_jelo',id=jelo.jeloID)}}>Više informacija</a></li>
-
+    <form method="post" style="display:inline" action="/brisi">
+        <!-- bitno da je ovaj inline !?-->
+        <input type="hidden" value="{{jelo.jeloID}}" name="jeloID" />
+        {{ wtf.form_field(form.submit) }}
+    </form>
     {% set kategorija_prev_id = jelo.kategorijaID %}
     {% endfor %}
 </ul>

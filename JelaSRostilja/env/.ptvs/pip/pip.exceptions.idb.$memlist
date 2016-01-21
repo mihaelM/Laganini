@@ -1,12 +1,13 @@
-BadCommand
+RequirementsFileParseError
 UnsupportedWheel
 PipError
 absolute_import
+InvalidWheelFilename
 PreviousBuildDirError
 InstallationError
 BestVersionAlreadyInstalled
 DistributionNotFound
 CommandError
 UninstallationError
-InvalidWheelFilename
 HashMismatch
+BadCommand

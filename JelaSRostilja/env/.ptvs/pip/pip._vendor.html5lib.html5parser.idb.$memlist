@@ -9,8 +9,9 @@ ParseError
 specialElements
 getPhases
 headingElements
+impliedTagToken
 cdataElements
-parse
+E
 absolute_import
 htmlIntegrationPointElements
 with_metaclass
@@ -26,5 +27,5 @@ asciiUpper2Lower
 parseFragment
 constants
 namespaces
-impliedTagToken
+parse
 mathmlTextIntegrationPointElements
