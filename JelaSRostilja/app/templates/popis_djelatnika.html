@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 <div style="background:#F3EADA">
@@ -8,7 +8,8 @@
     <li style="font-family:'Lucida Calligraphy'">
         Ime: {{djelatnik.ime}}
         Prezime: {{djelatnik.prezime}}
-        Korisnicko ime:{{djelatnik.korisnikKorisIme}}
+        Korisničko ime: {{djelatnik.korisnikKorisIme}}
+        Broj prihvaćenih narudžbi: {{djelatnik.brojNarudzbi}}
         <a href="{{url_for('main.prikazi_korisnika',id=djelatnik.korisnikID)}}">Vise informacija</a>
         <form method="POST" action="{{url_for('main.popis_djelatnika')}}">
             {{ form1.csrf_token }}

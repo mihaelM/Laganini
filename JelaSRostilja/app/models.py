@@ -1,4 +1,4 @@
-﻿#!/usr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 from . import db, login_manager
 from flask.ext.login import UserMixin, AnonymousUserMixin
@@ -62,6 +62,7 @@ class Korisnik(UserMixin,db.Model):
     ulogaID=db.Column(db.Integer,db.ForeignKey('uloga.ulogaID'))
     komentari=db.relationship('Komentar',backref='korisnik',lazy='dynamic')
     ocjena=db.Column(db.Integer,default=0)
+    brojNarudzbi=db.Column(db.Integer,default=0)
 
     narudzbe = db.relationship('Narudzba', secondary = Korisnik_Potvrdi_Narudzba, back_populates = 'korisnici') #djelatnici
 
@@ -102,7 +103,7 @@ class Korisnik(UserMixin,db.Model):
 
     def provjeri_password(self, password):
         return check_password_hash(self.korisnikPas_hash, password)
-
+    
     def smije(self,dozvole):
         return self.uloga is not None and (self.uloga.dozvole & dozvole)==dozvole
 
@@ -144,7 +145,6 @@ class Restoran(db.Model):
     proVrijemeDost=db.Column(db.String(128))
     nacinPlac=db.Column(db.Unicode(128))
     cijenaDostave=db.Column(db.Float)
-    evPopust=db.Column(db.Float) #hm da sto s tim
 
     def __repr__(self):
         return "<restoranID: {}, naziv: {}>".format(self.restoranID,self.naziv)
@@ -161,8 +161,7 @@ class Restoran(db.Model):
                      minNarudzba=100.0,
                      proVrijemeDost="40 min",
                      nacinPlac="Gotovinski ili kartično".decode('utf-8'),
-                     cijenaDostave=5.0,
-                     evPopust=0.0)
+                     cijenaDostave=5.0,)
         try:
             db.session.add(tmp)
             db.session.commit()
@@ -191,7 +190,7 @@ class Narudzba(db.Model):
     kontakt_broj=db.Column(db.Integer)
     email=db.Column(db.String(128))
     placanje=db.Column(db.String(64))
-    datum=db.Column(db.DateTime(), default=datetime.utcnow)
+    datum=db.Column(db.DateTime(), default=datetime.now)
     opisNarudzbe = db.Column(db.Unicode(100000))
     narudzbaCijenaDostave = db.Column(db.Float) #novi podatak - ukupna cijena narudzbe
     cijenaHrane = db.Column(db.Float)
@@ -250,14 +249,18 @@ class Jelo(db.Model):
     #trebalo bi one foreign keyeve definirat ^^
     # narudzbe = db.relationship ('Narudzba', secondary = Jelo_Ima_Narudzba, back_populates = 'jela')
     opcije = db.relationship("Opcija", secondary=Jelo_Ima_Opcija, back_populates="jela")
+    narucenoPuta=db.Column(db.Integer)
      
     def __init__(self,**kwargs):
         super(Jelo,self).__init__(**kwargs)
 
    # tu fino mozemo definirat kako zelimo da izgleda na stranici :)
     def __repr__(self):
-        return "{0:3d}. kategorija: {2}, naziv: {1} ".format( self.jeloID, self.naziv.encode('utf-8'),
-        Kategorija.query.filter_by(kategorijaID=self.kategorijaID).first().kategorijaIme.encode('utf-8') )
+        return "{0:3d}. {1} ".format( self.jeloID, self.naziv.encode('utf-8'))
+
+    #def __repr__(self):
+    #    return "{0:3d}. kategorija: {2}, naziv: {1} ".format( self.jeloID, self.naziv.encode('utf-8'),
+    #    Kategorija.query.filter_by(kategorijaID=self.kategorijaID).first().kategorijaIme.encode('utf-8') )
 
 # zasad stavljamo da ima tu jednu (ili nijednu) odabranu opciju, inače je prekomplicirano za nas neiskusne developere
 class JeloKosarica(db.Model):
@@ -315,10 +318,10 @@ class Statistika(db.Model):
     statistikaID = db.Column(db.Integer, primary_key = True, autoincrement = True)
     jeloID = db.Column(db.Integer)
     cijena = db.Column(db.Float) 
-    datetime = db.Column(db.DateTime, index=True, default=datetime.utcnow) 
+    datetime = db.Column(db.DateTime, index=True, default=datetime.now) 
 
 # također kad potvrdimo narudžbu
 class NarudzbaBroj(db.Model):
     narudzbaBrojID = db.Column(db.Integer, primary_key = True, autoincrement = True)
     narudzbaCijenaDostave = db.Column(db.Float)
-    datetime = db.Column(db.DateTime, index=True, default=datetime.utcnow) #podesimo mi kasnije vrijeme
+    datetime = db.Column(db.DateTime, index=True, default=datetime.now) #podesimo mi kasnije vrijeme

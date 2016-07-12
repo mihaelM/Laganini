@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 <script src="{{ url_for( 'static', filename = './js/validateForm.js' ) }}"></script>
@@ -10,6 +10,9 @@
     <b> Cijena: </b> {{jelo.cijena}}kn
     <br />
     <b> Dostupnost: </b> {% if jelo.dostupnost %} Dostupno {% else %} Nedostupno {% endif %}
+    {% if current_user.smije(Dozvole.ODRADI_NARUDZBU) %}    
+        {{wtf.quick_form(form2)}}
+    {% endif %}
     <br />
     <b> Često naručivano: </b>  {% if jelo.cestoNarucivano %} Da {% else %} Ne {% endif %}
     <br />

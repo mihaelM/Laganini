@@ -60,7 +60,6 @@ def index():
         form.proVrijemeDost.data=restoran.proVrijemeDost
         form.nacinPlac.data=restoran.nacinPlac
         form.cijenaDostave.data=restoran.cijenaDostave
-        form.evPopust.data = restoran.evPopust
     if request.method=='POST':
         restoran.naziv=str(form.naziv.data)
         restoran.adresa=form.adresa.data
@@ -72,7 +71,6 @@ def index():
         restoran.proVrijemeDost=form.proVrijemeDost.data       
         restoran.nacinPlac=form.nacinPlac.data
         restoran.cijenaDostave=float(form.cijenaDostave.data)
-        restoran.evPopust=float(form.evPopust.data)
         db.session.commit()
 
         flash('Podaci uspješno promjenjeni')
@@ -139,14 +137,34 @@ def prikazi_korisnika(id):
     return render_template('korisnik.html',korisnik=korisnik,id=korisnik.korisnikID)
 
 
-@main.route('/meni', methods=['GET'])
+@main.route('/meni', methods=['POST','GET'])
 def prikazi_meni():
-
+    form2=IzbrisiKategoriju()
+    form3=DodajKategoriju()
+    kategorije=Kategorija.query.all()
+    if request.method=='POST':
+        if form2.kategorijaID.data.isalnum():
+            print("test")
+            kategorija=Kategorija.query.filter_by(kategorijaID=form2.kategorijaID.data).first()
+            for j in kategorija.jela:
+                db.session.delete(j)
+            db.session.delete(kategorija)
+            db.session.commit()
+            flash('Kategorija obrisana')
+            return redirect(url_for('main.prikazi_meni'))
+        elif form3.kategorijaIme.data.isalnum():
+            novaKategorija=Kategorija()
+            novaKategorija.kategorijaIme=form3.kategorijaIme.data
+            print(novaKategorija)
+            db.session.add(novaKategorija)
+            db.session.commit()
+            flash('Kategorija dodana')
+            return redirect(url_for('main.prikazi_meni'))
     page = request.args.get('page', 1, type=int)
     form = IzbrisiJelo()
     jela = Jelo.query.order_by(Jelo.jeloID.asc()).paginate(page, per_page=100,error_out=False).items
     # tu mozda jos queryjat (ili u modelu podataka po kategorijama)
-    return render_template('meni.html', jela = jela, form = form)
+    return render_template('meni.html', jela = jela, form = form, form2=form2,form3=form3,kategorije=kategorije)
 
 
 @main.route('/brisi', methods=['POST'])
@@ -162,9 +180,20 @@ def brisi_jelo():
     # tu mozda jos queryjat (ili u modelu podataka po kategorijama)
     return render_template('meni.html', jela = jela, form = form)
 
-@main.route('/meni/<int:id>', methods=['GET'])
+@main.route('/meni/<int:id>', methods=['POST','GET'])
 def prikazi_jelo(id): # ukljucujuci opcije
+    form2=IzmjeniDostupnost()
+    
     jelo = Jelo.query.filter_by(jeloID=id).first()
+    if request.method=='POST':
+        if form2.validate_on_submit():
+            jelo.dostupnost=not jelo.dostupnost
+            db.session.commit()
+            flash('Dostupnost uspješno promjenjena')
+            return redirect(url_for('main.prikazi_jelo',id=id))
+        else:
+            pass
+    print("test")
     my_string = os.getcwd() + '/app/static/img/' + jelo.fotoJeloIme #sad ovo mi se ne svidja bas, al eto
   
     print(my_string)
@@ -173,11 +202,10 @@ def prikazi_jelo(id): # ukljucujuci opcije
     form1 = JeloForm()
 
     # fino je sve u jelo.opcije
-    return render_template('jelo_opcije.html', jelo = jelo, exist = exist, form1 = form1)
+    return render_template('jelo_opcije.html', jelo = jelo, exist = exist, form1 = form1, form2 = form2)
 
-@main.route('/meni', methods=['POST'])
+@main.route('/meni', methods=['GET','POST'])
 def dodaj_u_kosaricu(): #ovo je id od jela
-    
     form1 = JeloForm()
 
     jeloID = request.form.get('jeloID')
@@ -204,10 +232,11 @@ def dodaj_u_kosaricu(): #ovo je id od jela
         sessionID = session['uid']
         # opcije =  db.relationship("Opcija", secondary=Jelo_Ima_Opcija, back_populates="jela"), kasnije popunimo ju
     )
-
+    print(jeloKosarica)
     db.session.add(jeloKosarica)
 
     # cp od onog sto radimo u prikazi meni, ?
+    
     page = request.args.get('page', 1, type=int)
     jela = Jelo.query.order_by(Jelo.jeloID.asc()).paginate(page, per_page=100,error_out=False).items
     # tu mozda jos queryjat (ili u modelu podataka po kategorijama)
@@ -316,6 +345,7 @@ def potvrdjena_kosarica():
                 )
                 db.session.add(stats)
 
+
         # e sad je pravo vrijeme za izbrisat trentunu kosaricu
         JeloKosarica.query.filter_by(sessionID=session['uid']).delete()
         return render_template('uspjesna_narudzba.html')
@@ -373,13 +403,15 @@ def prihvati():
     #i ovdje ćemo spremiti narudžbe i ime djelatnika koji ju je prihvatio da je možemo zatim izbrisati
     djelatnik = ucitaj_korisnika(current_user.get_id())
     narudzba.korisnici.append(djelatnik)
+    current_user.brojNarudzbi+=1
+    db.session.commit()
     if not narudzba.potvrdjena:
         narudzba.potvrdjena = True
           #treba poslati mail o prihvaćanju
         narudzba_ispis = narudzba.ispis()
-        #send_mail_to(narudzba.email, 'Narudžba je prihvaćena.' + '\n' + narudzba_ispis)
+        send_mail_to(narudzba.email, 'Narudžba je prihvaćena.' + '\n' + narudzba_ispis)
 
-        vrijeme = datetime.utcnow #zabilježimo vrijeme
+        vrijeme = datetime.now #zabilježimo vrijeme
         print(vrijeme)
         narudzbaStatistike = NarudzbaStatistika.query.filter_by(narudzbaID = request.form.get('narudzbaID'))
         

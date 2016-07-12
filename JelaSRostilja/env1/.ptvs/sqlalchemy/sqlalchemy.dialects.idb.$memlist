@@ -3,10 +3,10 @@ registry
 mysql
 util
 sqlite
-sybase
+mssql
 _auto_fn
 postgresql
 __all__
 oracle
-mssql
+sybase
 postgres

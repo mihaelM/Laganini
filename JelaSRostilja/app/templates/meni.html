@@ -1,24 +1,31 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 <ul style="background:#F3EADA">
-    {% set kategorija_prev_id = 1 %}
-    {% for jelo in jela %}
-    {% if kategorija_prev_id != jelo.kategorijaID %}
-        <br />
-    {% endif %}
-    <li style="font-family:'Lucida Calligraphy'">{{jelo}}<a href={{url_for('main.prikazi_jelo',id=jelo.jeloID)}}>Više informacija</a></li>
-    
+    {% for k in kategorije %}
+    <h1>{{k.kategorijaIme}}</h1>
     {% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
-    <form method="post" style="display:inline" action="/brisi">
+    <form method="post" style="display:inline" action="{{url_for('main.prikazi_meni')}}">
         <!-- bitno da je ovaj inline !?-->
-        <input type="hidden" value="{{jelo.jeloID}}" name="jeloID" />
-        {{ wtf.form_field(form.submit) }}
+        <input type="hidden" value="{{k.kategorijaID}}" name="kategorijaID" />
+        {{ wtf.form_field(form2.submit) }}
     </form>
     {% endif %}
-
-
-    {% set kategorija_prev_id = jelo.kategorijaID %}
-    {% endfor %}
+        {% for j in k.jela %}
+            <li style="font-family:'Lucida Calligraphy'">{{j}}<a href={{url_for('main.prikazi_jelo',id=j.jeloID)}}>Više informacija</a></li>
+            {% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
+                Naruceno: {{j.narucenoPuta}} puta
+                <form method="post" style="display:inline" action="/brisi">
+                    <!-- bitno da je ovaj inline !?-->
+                    <input type="hidden" value="{{j.jeloID}}" name="jeloID" />
+                    {{ wtf.form_field(form.submit) }}
+                </form>
+            {% endif %}
+        {%endfor%}
+    {%endfor%}
 </ul>
+{% if current_user.is_authenticated and current_user.smije(Dozvole.ODRADI_NARUDZBU) %}
+<h1>Dodaj novu kategoriju</h1>
+{{wtf.quick_form(form3)}}
+{% endif %}
 {% endblock %}

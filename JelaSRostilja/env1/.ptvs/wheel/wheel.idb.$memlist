@@ -2,7 +2,7 @@ pkginfo
 pep425tags
 __version__
 archive
-paths
+signatures
 bdist_wheel
 metadata
 wininst2wheel
@@ -10,7 +10,7 @@ tool
 test
 decorator
 install
-signatures
+paths
 __main__
 util
 egg2wheel

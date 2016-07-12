@@ -1,4 +1,6 @@
-﻿from flask.ext.wtf import Form
+﻿#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, SelectField, PasswordField, HiddenField, RadioField, IntegerField, FloatField
 from wtforms.validators import DataRequired,EqualTo, NumberRange, Email, Regexp, Optional
 
@@ -60,7 +62,6 @@ class IzmjeniPodatkeRestorana(Form):
     proVrijemeDost=StringField('Prosjecno vrijeme dostave',validators=[DataRequired()])
     nacinPlac=StringField('Nacnin placanja',validators=[DataRequired()])
     cijenaDostave=StringField('Cijena dostave',validators=[DataRequired()])
-    evPopust=StringField('Popust',validators=[DataRequired()]) # default=0,choices=[(1,'Da'),(0,'Ne')]
     submit=SubmitField('Izmjeni')
 
 class PodaciNarudzbe(Form):
@@ -77,6 +78,17 @@ class PodaciNarudzbe(Form):
     #datum se autogenerira
     #treba dodatno imati izgenerirati izbornik za izbor 'karticnog' ili 'gotovinskog' placanja ili
     #obavijest da se plaća isključivo gotovinski
+
+class IzmjeniDostupnost(Form):
+    submit=SubmitField('Promjeni dostupnost')
+
+class DodajKategoriju(Form):
+    kategorijaIme=StringField('Ime Kategorije',validators = [DataRequired()])
+    submit=SubmitField('Dodaj kategoriju')
+
+class IzbrisiKategoriju(Form):
+    kategorijaID=HiddenField()
+    submit=SubmitField('Izbriši kategoriju')
 
 
 
